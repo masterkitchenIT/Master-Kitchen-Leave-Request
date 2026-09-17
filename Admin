@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Leave Space — ผู้อนุมัติ</title>
+<style>
+:root{--green:#174f43;--ink:#243b36;--muted:#72827d;--line:#e1e9e3}*{box-sizing:border-box}body{margin:0;background:#f5f7f3;color:var(--ink);font:15px/1.6 Tahoma,Arial,sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer}button:disabled{opacity:.5;cursor:wait}header{background:white;border-bottom:1px solid var(--line);padding:20px 5%;display:flex;align-items:center;justify-content:space-between;gap:16px}.brand{font-size:21px;font-weight:bold}.brand span{display:inline-block;padding:4px 11px;background:var(--green);color:white;border-radius:10px;margin-right:10px}.sub{font-size:12px;color:var(--muted)}main{max-width:1220px;margin:auto;padding:32px 24px}h1{font-size:28px;margin:4px 0}h2{font-size:19px;margin:0}p{margin:6px 0}.eyebrow{font-size:11px;letter-spacing:2px;color:var(--green)}.card{background:white;border:1px solid var(--line);border-radius:18px;padding:26px}.login{max-width:420px;margin:35px auto}.field{margin-top:18px}label{display:block;font-size:13px;font-weight:bold;margin-bottom:6px}input,select,textarea{width:100%;padding:10px 12px;background:white;border:1px solid #d5e0d8;border-radius:9px;color:var(--ink)}textarea{min-height:100px;resize:vertical}fieldset{border:0;padding:0;margin:0;min-width:0}.primary,.secondary,.reject{padding:9px 15px;border:0;border-radius:9px}.primary{background:var(--green);color:white}.secondary{background:#edf3ef;color:var(--green)}.reject{background:#fbeceb;color:#963c39}.login .primary{width:100%;margin-top:24px}.message{background:#e4f1e8;border-radius:10px;padding:12px 16px;margin-bottom:18px;white-space:pre-wrap}.error{background:#fbeceb;color:#963c39}.hero,.toolbar,.actions,.pager{display:flex;align-items:center;justify-content:space-between;gap:12px}.hero{margin-bottom:24px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px}.stat{background:white;border:1px solid var(--line);padding:18px 22px;border-radius:16px}.stat:first-child{background:var(--green);color:white}.stat strong{display:block;font-size:32px}.filters{display:grid;grid-template-columns:2fr 1fr 1fr auto;align-items:end;gap:12px;margin:22px 0}.table-scroll{overflow:auto}table{width:100%;border-collapse:collapse;font-size:13px}td,th{padding:14px 12px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}th{background:#f7f9f6;font-size:12px;color:var(--muted)}td small{display:block;color:var(--muted)}.badge{padding:4px 9px;border-radius:20px;white-space:nowrap;display:inline-block;background:#fff2d8;color:#946b19}.approved{background:#e6f4ec;color:#25744d}.rejected{background:#fceceb;color:#a64c47}.empty{text-align:center;padding:45px 10px;color:var(--muted)}.pager{margin-top:18px;justify-content:flex-end;font-size:12px}.actions{justify-content:flex-end;flex-wrap:wrap}.text{white-space:pre-wrap;overflow-wrap:anywhere}.detail-list{margin:16px 0;padding:16px;background:#f5f7f3;border-radius:10px}.detail-list p{margin:8px 0}.detail-list b{display:block;font-size:12px;color:var(--muted)}dialog{color:var(--ink);border:1px solid var(--line);border-radius:18px;width:95%;max-width:540px;padding:26px;max-height:90vh;overflow:auto}dialog::backdrop{background:#183b3455}a{color:var(--green)}[hidden]{display:none!important}:focus-visible{outline:3px solid #9ccfbe;outline-offset:2px}@media(max-width:760px){main{padding:24px 16px}.filters{grid-template-columns:1fr 1fr}.hero{align-items:flex-start}.card{padding:18px}.stats{gap:8px}.stat{padding:14px 12px}.stat strong{font-size:27px}header{align-items:flex-start;flex-direction:column}}@media(max-width:440px){.filters{grid-template-columns:1fr}.stat{font-size:12px}h1{font-size:24px}}
+</style>
+</head>
+<body>
+<header><div class="brand"><span>↗</span>Leave Space <small class="sub">ผู้อนุมัติ</small></div><div id="identity" class="sub">ระบบหลังบ้าน</div></header>
+<main>
+<div id="message" class="message" role="status" aria-live="polite" hidden></div>
+<section id="loginView" class="card login"><div class="eyebrow">APPROVAL DESK</div><h1>เข้าสู่ระบบผู้อนุมัติ</h1><p class="sub">ใช้บัญชีและรหัสผ่านที่ผู้ดูแลกำหนดให้คุณ</p><form id="loginForm"><fieldset id="loginFields"><div class="field"><label for="username">ชื่อผู้ใช้</label><input id="username" autocomplete="username" required maxlength="40" placeholder="เช่น hr.manager"></div><div class="field"><label for="password">รหัสผ่าน</label><input id="password" type="password" autocomplete="current-password" required maxlength="128"></div><button class="primary" type="submit" id="loginButton">เข้าสู่ระบบ</button></fieldset></form></section>
+<section id="dashboard" hidden>
+<div class="hero"><div><div class="eyebrow">APPROVAL DESK</div><h1>จัดการคำขอลาของทีม</h1><p class="sub" id="sessionHint"></p></div><button class="secondary" id="logout">ออกจากระบบ</button></div>
+<section class="stats"><div class="stat">รออนุมัติ<strong id="pending">0</strong></div><div class="stat">อนุมัติแล้ว<strong id="approved">0</strong></div><div class="stat">ไม่อนุมัติ<strong id="rejected">0</strong></div></section>
+<section class="card"><div class="toolbar"><div><h2>คำขอลาทั้งหมด</h2><p class="sub">ยอดสรุปด้านบนรวมทุกช่วงเวลา</p></div><button class="secondary" id="refresh">รีเฟรช</button></div>
+<div class="filters"><div><label for="search">ค้นหาชื่อหรือรหัสพนักงาน</label><input id="search" type="search" placeholder="พิมพ์ชื่อหรือรหัส"></div><div><label for="status">สถานะ</label><select id="status"><option>รออนุมัติ</option><option>ทั้งหมด</option><option>อนุมัติ</option><option>ไม่อนุมัติ</option></select></div><div><label for="month">เดือนที่เริ่มลา</label><input id="month" type="month"></div><button class="secondary" id="clearFilters">ล้างตัวกรอง</button></div>
+<div class="table-scroll"><table><thead><tr><th>ผู้ขอลา</th><th>ประเภท / ช่วงวันที่</th><th>วัน</th><th>สถานะ / ผู้พิจารณา</th><th>รายละเอียด</th></tr></thead><tbody id="rows"></tbody></table></div><div id="empty" class="empty" hidden>ไม่มีคำขอที่ตรงกับตัวกรอง</div><div class="pager"><span id="count"></span><button class="secondary" id="previous">ก่อนหน้า</button><button class="secondary" id="next">ถัดไป</button></div></section>
+</section>
+</main>
+<dialog id="detail"><div class="toolbar"><h2>รายละเอียดคำขอลา</h2><button class="secondary" id="closeDetail">ปิด</button></div><div id="detailInfo" class="detail-list"></div><p class="sub" id="ownHint" hidden>คำขอนี้เป็นของคุณ ให้ผู้อนุมัติคนอื่นพิจารณา</p><p id="detailMessage" class="message" role="status" hidden></p><div id="decision"><label for="note">หมายเหตุ (ต้องระบุเมื่อไม่อนุมัติ)</label><textarea id="note" maxlength="500" placeholder="ระบุข้อคิดเห็นหรือเหตุผล"></textarea><div class="actions" style="margin-top:18px"><button class="reject" id="reject">ไม่อนุมัติ</button><button class="primary" id="approve">อนุมัติ</button></div></div></dialog>
+<script>
+// ⚠️ แก้บรรทัดนี้: ต้องเป็นลิงก์เว็บแอป Apps Script เดียวกับที่ตั้งไว้ใน index.html
+const API_URL = 'https://script.google.com/macros/s/AKfycbygBJIl36KUfK0ZesDenluz-p-Q8XPHjpcPhkoOD_79xh92Vxv6iTxThp76OjWYGF5H6g/exec';
+
+const $=id=>document.getElementById(id);
+let token='',user=null,requests=[],selected=null,busy=false,page=0,expiryTimer=null;
+const PAGE_SIZE=20;
+function rpc(method,...args){
+ return fetch(API_URL,{method:'POST',body:JSON.stringify({method,args})})
+  .then(res=>res.json())
+  .then(data=>{if(data&&data.error)throw new Error(data.error);return data&&data.result;})
+  .catch(err=>{if(err instanceof TypeError)throw new Error('เชื่อมต่อ API ไม่ได้ กรุณาตรวจสอบ API_URL และการ deploy เว็บแอป');throw err;});
+}
+function notify(text,error=false){$('message').textContent=text;$('message').classList.toggle('error',error);$('message').hidden=false;}
+function setBusy(value){busy=value;$('loginFields').disabled=value;['logout','refresh','approve','reject','closeDetail'].forEach(id=>$(id).disabled=value);document.querySelectorAll('[data-open]').forEach(b=>b.disabled=value);}
+function clearSession(){clearTimeout(expiryTimer);token='';user=null;requests=[];selected=null;$('rows').replaceChildren();$('detailInfo').replaceChildren();$('note').value='';if($('detail').open)$('detail').close();$('dashboard').hidden=true;$('loginView').hidden=false;$('identity').textContent='ระบบหลังบ้าน';$('password').value='';}
+function handleError(error){const text=String(error.message||error);if(text.includes('AUTH_REQUIRED:')){clearSession();notify('หมดเวลาใช้งานหรือบัญชีถูกเปลี่ยน กรุณาเข้าสู่ระบบใหม่',true);}else notify(text,true);}
+function date(value){const p=String(value||'').split('-');return p.length===3?p[2]+'/'+p[1]+'/'+(Number(p[0])+543):String(value||'');}
+function timestamp(value){return value?new Date(value).toLocaleString('th-TH',{timeZone:'Asia/Bangkok'}):'—';}
+function small(parent,text){const e=document.createElement('small');e.textContent=text;parent.appendChild(e);}
+function cell(row,text){const e=document.createElement('td');e.textContent=text;row.appendChild(e);return e;}
+function filtered(){const q=$('search').value.trim().toLowerCase(),status=$('status').value,month=$('month').value;return requests.filter(r=>(!q||(r.name+' '+r.employeeId).toLowerCase().includes(q))&&(status==='ทั้งหมด'||r.status===status)&&(!month||String(r.start).slice(0,7)===month));}
+function render(){
+ ['pending','approved','rejected'].forEach((id,i)=>$(id).textContent=requests.filter(r=>r.status===['รออนุมัติ','อนุมัติ','ไม่อนุมัติ'][i]).length);
+ const list=filtered();page=Math.max(0,Math.min(page,Math.ceil(list.length/PAGE_SIZE)-1));$('rows').replaceChildren();
+ list.slice(page*PAGE_SIZE,(page+1)*PAGE_SIZE).forEach(r=>{const tr=document.createElement('tr');const name=cell(tr,r.name);small(name,r.employeeId);const period=cell(tr,r.type);small(period,date(r.start)+' – '+date(r.end));cell(tr,r.days);const state=cell(tr,'');const badge=document.createElement('span');badge.className='badge'+(r.status==='อนุมัติ'?' approved':r.status==='ไม่อนุมัติ'?' rejected':'');badge.textContent=r.status;state.appendChild(badge);if(r.reviewer)small(state,r.reviewer);if(r.reviewedAt)small(state,timestamp(r.reviewedAt));const action=cell(tr,'');const button=document.createElement('button');button.className='secondary';button.textContent='ดูรายละเอียด';button.setAttribute('data-open',r.id);button.disabled=busy;button.onclick=()=>openDetail(r);action.appendChild(button);$('rows').appendChild(tr);});
+ $('empty').hidden=!!list.length;$('count').textContent=list.length+' รายการ · หน้า '+(list.length?page+1:0)+' / '+Math.ceil(list.length/PAGE_SIZE);$('previous').disabled=page===0;$('next').disabled=(page+1)*PAGE_SIZE>=list.length;
+}
+function info(label,value){const p=document.createElement('p');const b=document.createElement('b');b.textContent=label;p.appendChild(b);const text=document.createElement('span');text.className='text';text.textContent=value;$('detailInfo').appendChild(p);p.appendChild(text);}
+function openDetail(r){
+ selected=r;$('detailInfo').replaceChildren();$('detailMessage').hidden=true;$('note').value='';
+ info('ผู้ขอลา',r.name+' ('+r.employeeId+')');info('ประเภทลา',r.type);info('ช่วงวันที่',date(r.start)+' – '+date(r.end)+' · '+r.days+' วัน');info('เหตุผล',r.reason);info('ส่งคำขอเมื่อ',timestamp(r.createdAt));info('สถานะ',r.status);
+ if(r.attachmentUrl&&/^https:\/\/drive\.google\.com\/(file\/d\/|open\?id=)/.test(r.attachmentUrl)){const a=document.createElement('a');a.href=r.attachmentUrl;a.target='_blank';a.rel='noopener noreferrer';a.textContent='เปิดเอกสาร: '+(r.attachmentName||'ไฟล์แนบ');$('detailInfo').appendChild(a);info('การเปิดเอกสาร','ใช้บัญชี Google ที่มีสิทธิ์ดูโฟลเดอร์เอกสาร');}else info('เอกสารประกอบ','ไม่มีไฟล์แนบ');
+ if(r.reviewer){info('ผู้พิจารณา',r.reviewer);info('พิจารณาเมื่อ',timestamp(r.reviewedAt));}if(r.note)info('หมายเหตุ',r.note);
+ const own=!!user.employeeId&&r.employeeId===user.employeeId;$('ownHint').hidden=!own;$('decision').hidden=r.status!=='รออนุมัติ'||own;$('detail').showModal();
+}
+async function load(){const current=token;const result=await rpc('getAdminDashboard',current);if(!current||token!==current)return;user=result.user;requests=result.requests;$('identity').textContent=user.name+' ('+user.username+')';render();}
+async function refresh(){if(!token||busy)return;setBusy(true);try{await load();}catch(error){handleError(error);}finally{setBusy(false);}}
+$('loginForm').onsubmit=async event=>{event.preventDefault();if(busy)return;setBusy(true);$('loginButton').textContent='กำลังเข้าสู่ระบบ…';try{const result=await rpc('loginAdmin',$('username').value,$('password').value);token=result.token;user=result.user;$('password').value='';$('loginView').hidden=true;$('dashboard').hidden=false;$('message').hidden=true;$('sessionHint').textContent='เข้าใช้ได้ถึง '+new Date(result.expiresAt).toLocaleTimeString('th-TH',{timeZone:'Asia/Bangkok'});expiryTimer=setTimeout(()=>{clearSession();notify('ครบเวลาใช้งาน กรุณาเข้าสู่ระบบใหม่',true);},Math.max(0,result.expiresAt-Date.now()));await load();}catch(error){handleError(error);}finally{$('password').value='';setBusy(false);$('loginButton').textContent='เข้าสู่ระบบ';}};
+$('logout').onclick=async()=>{if(busy)return;const current=token;clearSession();setBusy(true);try{await rpc('logoutAdmin',current);notify('ออกจากระบบแล้ว');}catch(error){notify('ปิดข้อมูลบนหน้านี้แล้ว แต่ติดต่อเซิร์ฟเวอร์เพื่อจบเซสชันไม่สำเร็จ',true);}finally{setBusy(false);}};
+$('refresh').onclick=refresh;
+['search','status','month'].forEach(id=>$(id).addEventListener('input',()=>{page=0;render();}));
+$('clearFilters').onclick=()=>{$('search').value='';$('status').value='ทั้งหมด';$('month').value='';page=0;render();};
+$('previous').onclick=()=>{page--;render();};$('next').onclick=()=>{page++;render();};
+$('closeDetail').onclick=()=>{$('detail').close();selected=null;};$('detail').addEventListener('cancel',e=>{if(busy)e.preventDefault();else selected=null;});
+async function decide(status){
+ if(busy||!selected||!token)return;const note=$('note').value.trim();
+ if(status==='ไม่อนุมัติ'&&!note){$('detailMessage').textContent='กรุณาระบุเหตุผลที่ไม่อนุมัติ';$('detailMessage').hidden=false;$('note').focus();return;}
+ const current=token;setBusy(true);
+ try{const result=await rpc('reviewLeave',selected.id,status,note,current);if(token!==current)return;$('detail').close();selected=null;notify(result.message);try{await load();}catch(error){if(String(error.message).includes('AUTH_REQUIRED:'))handleError(error);else notify('บันทึกผลแล้ว แต่โหลดข้อมูลล่าสุดไม่ได้ กรุณากดรีเฟรช',true);}}
+ catch(error){if(String(error.message).includes('AUTH_REQUIRED:'))handleError(error);else{$('detailMessage').textContent=error.message;$('detailMessage').hidden=false;}}
+ finally{setBusy(false);}
+}
+$('approve').onclick=()=>decide('อนุมัติ');$('reject').onclick=()=>decide('ไม่อนุมัติ');
+</script>
+</body></html>
