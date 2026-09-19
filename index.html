@@ -2,22 +2,166 @@
 <html lang="th">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Leave Space — ระบบลางาน</title>
+<title>Master Kitchen: ระบบลางาน</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--green:#174f43;--ink:#243b36;--muted:#72827d;--line:#e3eae5;--bg:#f5f7f3}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 Tahoma,Arial,sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer}button:disabled{opacity:.5;cursor:wait}header{background:white;border-bottom:1px solid var(--line);padding:20px 5%;display:flex;justify-content:space-between;align-items:center;gap:16px}.brand{font-size:21px;font-weight:bold;letter-spacing:-.6px}.logo{background:var(--green);color:white;border-radius:12px;padding:7px 12px;margin-right:10px}.account{font-size:12px;color:var(--muted)}main{max-width:1200px;margin:auto;padding:36px 28px}h1{font-size:30px;letter-spacing:-1px;margin:8px 0}h2{font-size:19px;margin:0 0 5px}p{margin:4px 0;color:var(--muted)}.eyebrow{font-size:11px;letter-spacing:2px;color:var(--green);font-weight:bold}.hero{display:flex;align-items:center;justify-content:space-between;margin-bottom:26px;gap:20px}.pill{padding:8px 14px;border:1px solid #d6e1d8;border-radius:24px;font-size:12px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:26px}.stat{border:1px solid var(--line);background:white;border-radius:16px;padding:20px 24px}.stat:first-child{background:var(--green);color:white}.stat span{font-size:13px}.stat strong{display:block;font-size:34px;line-height:1.4}.stat small{opacity:.7}.layout{display:grid;grid-template-columns:355px 1fr;gap:24px;align-items:start}.card{background:white;border:1px solid var(--line);border-radius:18px;padding:25px}.sub{font-size:12px}.field{margin-top:18px}label{display:block;font-size:13px;font-weight:bold;margin-bottom:6px}input,select,textarea{width:100%;border:1px solid #d9e2dc;border-radius:9px;padding:10px 12px;background:white;color:var(--ink)}textarea{resize:vertical;min-height:94px}:focus-visible{outline:3px solid #9ccfbe;outline-offset:2px}.dates{display:grid;grid-template-columns:1fr 1fr;gap:10px}.primary,.secondary{border-radius:10px;padding:10px 16px;border:0}.primary{background:var(--green);color:white}.secondary{background:#edf3ef;color:var(--green)}form>.primary{width:100%;margin-top:20px}.hint{background:#f2f6ed;border-radius:9px;font-size:12px;padding:12px;margin-top:16px;color:#596b4a}.tabletop{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:20px}.filters{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}.filters button{border:1px solid var(--line);border-radius:20px;background:white;padding:6px 13px;font-size:12px}.filters button.active{background:var(--green);color:white;border-color:var(--green)}.scroll{overflow:auto}table{width:100%;border-collapse:collapse;font-size:12px}th{text-align:left;color:var(--muted);font-weight:normal;background:#f7f9f6}td,th{padding:14px 10px;border-bottom:1px solid var(--line);vertical-align:top}td small{display:block;color:var(--muted)}.badge{display:inline-block;padding:4px 9px;border-radius:20px;white-space:nowrap;background:#fff2d8;color:#946b19}.approved{background:#e6f4ec;color:#25744d}.rejected{background:#fceceb;color:#a64c47}.empty{text-align:center;padding:48px 10px;color:var(--muted)}.review{display:flex;gap:6px;margin-top:8px}.review button{font-size:11px;padding:5px 8px}.message{padding:12px 16px;margin-bottom:20px;border-radius:10px;background:#e7f2eb;white-space:pre-wrap}.message.error{background:#fbeceb;color:#923a32}[hidden]{display:none!important}footer{text-align:center;font-size:11px;color:var(--muted);padding:28px}dialog{border:1px solid var(--line);border-radius:18px;padding:26px;max-width:430px;width:90%;color:var(--ink)}dialog::backdrop{background:#183b3455}.actions{display:flex;justify-content:flex-end;gap:8px;margin-top:18px}@media(max-width:960px){.layout{grid-template-columns:1fr}.hero{align-items:flex-start}.card{padding:20px}}@media(max-width:560px){main{padding:24px 16px}header{padding:16px;align-items:flex-start;flex-direction:column}.stats{gap:8px}.stat{padding:14px 12px}.stat strong{font-size:28px}.stat span,.stat small{font-size:11px}.hero .pill{display:none}h1{font-size:26px}}
+:root{
+  --bg:#efead8; --paper:#fbf9f1; --ink:#23271f; --ink-soft:#5b5f52; --line:#d6cfb8;
+  --brand:#2f6b4f; --amber:#b9791e; --red:#9b3b34;
+  --sans:'IBM Plex Sans',system-ui,sans-serif; --mono:'IBM Plex Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 var(--sans)}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+button:disabled{opacity:.5;cursor:wait}
+:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+[hidden]{display:none!important}
+
+header{background:var(--paper);border-bottom:1px solid var(--line);padding:18px 5%;display:flex;justify-content:space-between;align-items:center;gap:16px}
+.mark{display:flex;align-items:center;gap:12px}
+.mark-badge{font-family:var(--mono);font-weight:600;font-size:13px;border:1.5px solid var(--ink);border-radius:6px;padding:5px 8px;letter-spacing:.02em}
+.mark-text strong{display:block;font-size:16px;font-weight:600}
+.mark-text small{display:block;font-size:12px;color:var(--ink-soft)}
+.account{font-size:12.5px;color:var(--ink-soft);text-align:right}
+
+main{max-width:1180px;margin:auto;padding:36px 24px 60px}
+
+.intro h1{font-size:28px;letter-spacing:-.01em;margin:0 0 8px;font-weight:700}
+.intro p{margin:0 0 28px;color:var(--ink-soft);max-width:56ch}
+
+.message{padding:12px 16px;margin-bottom:24px;border-radius:8px;border:1px solid var(--line);background:var(--paper);white-space:pre-wrap;font-size:14px}
+.message.error{border-color:var(--red);color:var(--red);background:#f8ecea}
+
+.stats{display:flex;border:1px dashed var(--line);border-radius:10px;overflow:hidden;background:var(--paper);margin-bottom:28px}
+.stat{flex:1;padding:16px 20px;border-right:1px dashed var(--line)}
+.stat:last-child{border-right:0}
+.stat strong{display:block;font-family:var(--mono);font-size:28px;font-weight:600;line-height:1.2}
+.stat span{font-size:12.5px;color:var(--ink-soft)}
+
+.picker{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:22px;margin-bottom:26px}
+.picker label{display:block;font-size:13px;font-weight:600;margin-bottom:8px}
+.picker select{width:100%;max-width:420px}
+.picker .sub{margin:10px 0 0;font-size:12.5px;color:var(--ink-soft);max-width:60ch}
+#adminLink{display:inline-block;margin-top:14px;font-size:13px;color:var(--brand);text-decoration:none;border-bottom:1px solid var(--brand)}
+#adminLink:hover{opacity:.8}
+
+input,select,textarea{width:100%;border:1px solid var(--line);border-radius:8px;padding:10px 12px;background:var(--paper)}
+textarea{resize:vertical;min-height:92px}
+
+.layout{display:grid;grid-template-columns:360px 1fr;gap:22px;align-items:start}
+.panel{position:relative;background:var(--paper);border:1px solid var(--line);border-radius:6px 6px 14px 14px;padding:24px}
+.panel::before,.panel::after{content:'';position:absolute;top:-8px;width:16px;height:16px;border-radius:50%;background:var(--bg);border:1px solid var(--line)}
+.panel::before{left:-8px}
+.panel::after{right:-8px}
+.panel h2{font-size:17px;font-weight:600;margin:0 0 4px}
+
+fieldset{border:0;padding:0;margin:0;min-width:0}
+.field{margin-top:16px}
+.field label{display:block;font-size:13px;font-weight:600;margin-bottom:6px}
+.dates{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.hint{font-size:12px;color:var(--ink-soft);margin:18px 0 0;padding-top:14px;border-top:1px dashed var(--line)}
+
+.primary,.secondary{border-radius:8px;padding:10px 18px;border:0;font-weight:600;font-size:14px}
+.primary{background:var(--brand);color:var(--paper)}
+.secondary{background:transparent;border:1px solid var(--line);color:var(--ink)}
+form>.primary{width:100%;margin-top:22px}
+
+.tabletop{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px}
+.tabletop p{margin:2px 0 0;font-size:12.5px;color:var(--ink-soft)}
+.filters{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}
+.filters button{border:1px solid var(--line);border-radius:20px;background:transparent;padding:6px 14px;font-size:12.5px;font-weight:500}
+.filters button.active{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+
+.scroll{overflow:auto}
+table{width:100%;border-collapse:separate;border-spacing:0 10px;font-size:13px}
+thead th{text-align:left;font-weight:500;font-size:12px;color:var(--ink-soft);padding:0 14px 4px}
+tbody tr{background:var(--bg)}
+td{padding:13px 14px;border-top:1px dashed var(--line);border-bottom:1px dashed var(--line);vertical-align:top}
+td:first-child{border-left:1px dashed var(--line);border-top-left-radius:8px;border-bottom-left-radius:8px}
+td:last-child{border-right:1px dashed var(--line);border-top-right-radius:8px;border-bottom-right-radius:8px}
+td small{display:block;color:var(--ink-soft);margin-top:2px;font-size:12px}
+
+.badge{display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.03em;padding:3px 9px;border:1.5px solid var(--amber);color:var(--amber);border-radius:4px;transform:rotate(-3deg)}
+.badge.approved{border-color:var(--brand);color:var(--brand)}
+.badge.rejected{border-color:var(--red);color:var(--red)}
+
+.empty{text-align:center;padding:44px 10px;color:var(--ink-soft)}
+footer{text-align:center;font-size:11.5px;color:var(--ink-soft);padding:30px}
+
+@media(max-width:960px){.layout{grid-template-columns:1fr}}
+@media(max-width:560px){
+  main{padding:26px 16px 48px}
+  header{padding:16px;flex-direction:column;align-items:flex-start;gap:10px}
+  .account{text-align:left}
+  .stats{flex-direction:column}
+  .stat{border-right:0;border-bottom:1px dashed var(--line)}
+  .stat:last-child{border-bottom:0}
+  .intro h1{font-size:24px}
+}
 </style>
 </head>
 <body>
-<header><div class="brand"><span class="logo">↗</span>Leave Space</div><div class="account" id="account">เลือกชื่อเพื่อเริ่มใช้งาน · ไม่ต้องล็อกอิน</div></header>
+<header>
+  <div class="mark"><span class="mark-badge">MK</span><div class="mark-text"><strong>Master Kitchen</strong><small>ระบบลางาน</small></div></div>
+  <div class="account" id="account"></div>
+</header>
 <main>
-<div class="hero"><div><div class="eyebrow">PEOPLE & WORKPLACE</div><h1>จัดการวันลาได้ง่ายขึ้น</h1><p>ส่งคำขอ ติดตามสถานะ และวางแผนวันพักของคุณ</p></div><span class="pill">วันทำงาน จันทร์ – ศุกร์</span></div>
+<section class="intro">
+  <h1>จัดการวันลาของคุณ</h1>
+</section>
+
 <div id="message" class="message" role="status" aria-live="polite" hidden></div>
-<section class="stats" aria-label="สรุปคำขอของฉัน"><div class="stat"><span>คำขอของฉันทั้งหมด</span><strong id="total">–</strong><small>ทุกช่วงเวลา · รายการ</small></div><div class="stat"><span>รออนุมัติ</span><strong id="pending">–</strong><small>คำขอของฉัน · รายการ</small></div><div class="stat"><span>อนุมัติแล้ว</span><strong id="approved">–</strong><small>คำขอของฉัน · รายการ</small></div></section>
-<section class="card" style="margin-bottom:24px"><label for="employee">เลือกชื่อพนักงาน</label><select id="employee" disabled aria-describedby="employeeHelp"><option value="">กำลังโหลดรายชื่อ…</option></select><p class="sub" id="employeeHelp">เลือกชื่อของคุณด้านบน ชื่อและประวัติการลาจะแสดงให้อัตโนมัติ</p><p class="sub" style="margin-top:8px">ผู้ที่มีลิงก์สามารถเลือกชื่อ ดูประวัติ และส่งคำขอแทนชื่อที่เลือกได้</p><p style="margin-top:14px"><a id="adminLink" href="admin.html" target="_blank" rel="noopener noreferrer" hidden>เปิดหน้าหลังบ้านสำหรับผู้อนุมัติ ↗</a></p></section><div class="layout">
-<section class="card"><h2>ยื่นคำขอลา</h2><p class="sub">กรอกรายละเอียดเพื่อส่งให้ผู้อนุมัติ</p>
-<form id="leaveForm"><fieldset id="fields" disabled style="border:0;padding:0;margin:0;min-width:0"><div class="field"><label for="name">ชื่อ–นามสกุล</label><input id="name" readonly placeholder="เลือกชื่อพนักงานด้านบน"></div><div class="field"><label for="type">ประเภทการลา</label><select id="type" required></select></div><div class="field" id="sickTypeField" hidden><label for="sickType">รูปแบบการลาป่วย *</label><select id="sickType" disabled><option value="">— เลือกรูปแบบการลาป่วย —</option><option value="SK">มีใบรับรองแพทย์</option><option value="SKN">ไม่มีใบรับรองแพทย์</option></select></div><div class="dates"><div class="field"><label for="start">วันที่เริ่ม</label><input type="date" id="start" name="start" required></div><div class="field"><label for="end">วันที่สิ้นสุด</label><input type="date" id="end" name="end" required></div></div><div class="field"><label for="reason">เหตุผลการลา</label><textarea id="reason" name="reason" required maxlength="1000" placeholder="ระบุรายละเอียดที่จำเป็นสำหรับผู้อนุมัติ"></textarea></div><div class="field" id="attachmentField" hidden><label for="attachment">รูปภาพหรือเอกสารอ้างอิง <span id="attachmentRequired"></span></label><input type="file" id="attachment" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" aria-describedby="attachmentHint fileInfo"><p class="sub" id="attachmentHint"></p><p class="sub" id="fileInfo" aria-live="polite">ยังไม่ได้เลือกไฟล์</p><button type="button" class="secondary" id="clearFile" hidden style="margin-top:8px">นำไฟล์ออก</button></div><div class="hint">นับวันลาเต็มวัน เฉพาะจันทร์–ศุกร์<br>ยังไม่หักวันหยุดนักขัตฤกษ์และไม่ตรวจโควตาวันลา</div></fieldset><button class="primary" id="submit" disabled>ส่งคำขอลา ↗</button></form></section>
-<section class="card"><div class="tabletop"><div><h2 id="listTitle">ประวัติการลาของฉัน</h2><p class="sub">รายการล่าสุดแสดงเป็นอันดับแรก</p></div><button class="secondary" id="refresh">รีเฟรช</button></div><div class="filters" id="filters"><button class="active" data-filter="ทั้งหมด" aria-pressed="true">ทั้งหมด</button><button data-filter="รออนุมัติ" aria-pressed="false">รออนุมัติ</button><button data-filter="อนุมัติ" aria-pressed="false">อนุมัติ</button><button data-filter="ไม่อนุมัติ" aria-pressed="false">ไม่อนุมัติ</button></div><div class="scroll"><table><thead><tr><th>ผู้ลา / ประเภท</th><th>ช่วงวันที่</th><th>วัน</th><th>สถานะ</th></tr></thead><tbody id="rows"></tbody></table></div><div class="empty" id="empty">กำลังโหลดข้อมูล…</div></section>
-</div></main><footer>Leave Space · ระบบลางานภายในองค์กร</footer>
+
+<section class="stats" aria-label="สรุปคำขอของฉัน">
+  <div class="stat"><strong id="total">–</strong><span>คำขอทั้งหมด</span></div>
+  <div class="stat"><strong id="pending">–</strong><span>รออนุมัติ</span></div>
+  <div class="stat"><strong id="approved">–</strong><span>อนุมัติแล้ว</span></div>
+</section>
+
+<section class="picker">
+  <label for="employee">เลือกชื่อพนักงาน</label>
+  <select id="employee" disabled aria-describedby="employeeHelp"><option value="">กำลังโหลดรายชื่อ…</option></select>
+  <p class="sub" id="employeeHelp">เลือกชื่อของคุณ ระบบจะแสดงประวัติการลาให้อัตโนมัติ</p>
+  <a id="adminLink" href="admin.html" target="_blank" rel="noopener noreferrer" hidden>สำหรับผู้อนุมัติ</a>
+</section>
+
+<div class="layout">
+<section class="panel">
+  <h2>ออกคำขอลาใหม่</h2>
+  <form id="leaveForm">
+    <fieldset id="fields" disabled>
+      <div class="field"><label for="name">ชื่อ–นามสกุล</label><input id="name" readonly placeholder="เลือกชื่อพนักงานด้านบน"></div>
+      <div class="field"><label for="type">ประเภทการลา</label><select id="type" required></select></div>
+      <div class="field" id="sickTypeField" hidden><label for="sickType">รูปแบบการลาป่วย *</label><select id="sickType" disabled><option value="">— เลือกรูปแบบการลาป่วย —</option><option value="SK">มีใบรับรองแพทย์</option><option value="SKN">ไม่มีใบรับรองแพทย์</option></select></div>
+      <div class="dates"><div class="field"><label for="start">วันที่เริ่ม</label><input type="date" id="start" name="start" required></div><div class="field"><label for="end">วันที่สิ้นสุด</label><input type="date" id="end" name="end" required></div></div>
+      <div class="field"><label for="reason">เหตุผลการลา</label><textarea id="reason" name="reason" required maxlength="1000" placeholder="ระบุรายละเอียดที่จำเป็นสำหรับผู้อนุมัติ"></textarea></div>
+      <div class="field" id="attachmentField" hidden><label for="attachment">รูปภาพหรือเอกสารอ้างอิง <span id="attachmentRequired"></span></label><input type="file" id="attachment" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" aria-describedby="attachmentHint fileInfo"><p class="sub" id="attachmentHint"></p><p class="sub" id="fileInfo" aria-live="polite">ยังไม่ได้เลือกไฟล์</p><button type="button" class="secondary" id="clearFile" hidden style="margin-top:8px">นำไฟล์ออก</button></div>
+      <p class="hint">นับวันลาเต็มวัน เฉพาะจันทร์–ศุกร์<br>ยังไม่หักวันหยุดนักขัตฤกษ์และไม่ตรวจโควตาวันลา</p>
+    </fieldset>
+    <button class="primary" id="submit" disabled>ส่งคำขอลา</button>
+  </form>
+</section>
+
+<section class="panel">
+  <div class="tabletop">
+    <div><h2 id="listTitle">ประวัติการลาของฉัน</h2><p>รายการล่าสุดแสดงเป็นอันดับแรก</p></div>
+    <button class="secondary" id="refresh">รีเฟรช</button>
+  </div>
+  <div class="filters" id="filters">
+    <button class="active" data-filter="ทั้งหมด" aria-pressed="true">ทั้งหมด</button>
+    <button data-filter="รออนุมัติ" aria-pressed="false">รออนุมัติ</button>
+    <button data-filter="อนุมัติ" aria-pressed="false">อนุมัติ</button>
+    <button data-filter="ไม่อนุมัติ" aria-pressed="false">ไม่อนุมัติ</button>
+  </div>
+  <div class="scroll"><table><thead><tr><th>ผู้ลา / ประเภท</th><th>ช่วงวันที่</th><th>วัน</th><th>สถานะ</th></tr></thead><tbody id="rows"></tbody></table></div>
+  <div class="empty" id="empty">กำลังโหลดข้อมูล…</div>
+</section>
+</div>
+</main>
+<footer>Master Kitchen · ระบบลางานภายในองค์กร</footer>
 
 <script>
 // ⚠️ แก้บรรทัดนี้: วางลิงก์เว็บแอป Apps Script ของคุณ (ลงท้ายด้วย /exec)
@@ -40,15 +184,15 @@ function displayDate(value){const parts=String(value).split('-');return parts.le
 function render(){
  const mine=state.requests.filter(r=>r.employeeId===state.user.employeeId);
  $('total').textContent=mine.length;$('pending').textContent=mine.filter(r=>r.status==='รออนุมัติ').length;$('approved').textContent=mine.filter(r=>r.status==='อนุมัติ').length;
- $('account').textContent=state.user.name+' · '+(state.user.isAdmin?'โหมดผู้อนุมัติ':'เลือกชื่อโดยไม่ล็อกอิน');$('listTitle').textContent=state.user.isAdmin?'คำขอลาของทีม':'ประวัติการลาของฉัน';
+ $('account').textContent=state.user.name+' ('+(state.user.isAdmin?'โหมดผู้อนุมัติ':'เลือกชื่อโดยไม่ล็อกอิน')+')';$('listTitle').textContent=state.user.isAdmin?'คำขอลาของทีม':'ประวัติการลาของฉัน';
  const list=state.requests.filter(r=>filter==='ทั้งหมด'||r.status===filter);$('rows').replaceChildren();$('empty').hidden=!!list.length;$('empty').textContent='ยังไม่มีคำขอในหมวดนี้';
- list.forEach(r=>{const tr=document.createElement('tr');const first=cell(tr,r.name);small(first,r.type);if(state.user.isAdmin)small(first,r.employeeId);const details=document.createElement('details');const summary=document.createElement('summary');summary.textContent='ดูเหตุผล';details.appendChild(summary);const reason=document.createElement('p');reason.textContent=r.reason;details.appendChild(reason);first.appendChild(details);
+ list.forEach(r=>{const tr=document.createElement('tr');const first=cell(tr,r.name);small(first,r.type);if(state.user.isAdmin)small(first,r.employeeId);
  if(r.hasAttachment){const proof=document.createElement('div');if(state.user.isAdmin&&/^https:\/\/drive\.google\.com\/(file\/d\/|open\?id=)/.test(r.attachmentUrl||'')){const link=document.createElement('a');link.href=r.attachmentUrl;link.target='_blank';link.rel='noopener noreferrer';link.textContent='เปิดเอกสาร: '+(r.attachmentName||'ไฟล์แนบ');proof.appendChild(link);}else{proof.textContent='แนบเอกสารแล้ว';}first.appendChild(proof);}
  cell(tr,displayDate(r.start)+' – '+displayDate(r.end));cell(tr,r.days);const status=cell(tr,'');const badge=document.createElement('span');badge.className='badge'+(r.status==='อนุมัติ'?' approved':r.status==='ไม่อนุมัติ'?' rejected':'');badge.textContent=r.status;status.appendChild(badge);if(r.note)small(status,r.note);if(r.reviewer)small(status,'โดย '+r.reviewer);
  $('rows').appendChild(tr);
  });
 }
-async function load(){if(!$('employee').value){clearView();$('account').textContent='เลือกชื่อเพื่อเริ่มใช้งาน · ไม่ต้องล็อกอิน';return;}const data=await rpc('getDashboard',$('employee').value);state=data;$('name').value=data.user.name;populateTypes(data.types);render();}
+async function load(){if(!$('employee').value){clearView();$('account').textContent='';return;}const data=await rpc('getDashboard',$('employee').value);state=data;$('name').value=data.user.name;populateTypes(data.types);render();}
 async function refresh(){setBusy(true);try{await load();}catch(e){clearView();notify(e.message,true);if(!state)$('empty').textContent='ยังโหลดข้อมูลไม่ได้';}finally{setBusy(false);}}
 $('refresh').onclick=()=>bootstrap?refresh():init();
 $('filters').onclick=e=>{const b=e.target.closest('[data-filter]');if(!b)return;filter=b.dataset.filter;document.querySelectorAll('[data-filter]').forEach(x=>{x.classList.toggle('active',x===b);x.setAttribute('aria-pressed',x===b?'true':'false');});if(state)render();};
@@ -65,7 +209,7 @@ function updateAttachmentRule(){
  if(annual)resetAttachment();
  const code=selectedType().split(' - ')[0];const required=!annual&&(bootstrap?.attachmentRequiredCodes||[]).includes(code);
  $('attachment').required=required;$('attachmentRequired').textContent=required?'* จำเป็น':'(ถ้ามี)';
- $('attachmentHint').textContent=(required?'ประเภทนี้ต้องแนบเอกสาร · ':'แนบรูปภาพหรือเอกสารอ้างอิงได้ · ')+'PDF, JPG หรือ PNG จำนวน 1 ไฟล์ ไม่เกิน 5 MB';
+ $('attachmentHint').textContent=(required?'ประเภทนี้ต้องแนบเอกสาร: ':'แนบรูปภาพหรือเอกสารอ้างอิงได้: ')+'PDF, JPG หรือ PNG จำนวน 1 ไฟล์ ไม่เกิน 5 MB';
 }
 function resetAttachment(){$('attachment').value='';$('attachment').setCustomValidity('');$('fileInfo').textContent='ยังไม่ได้เลือกไฟล์';$('clearFile').hidden=true;}
 function validateFile(file){
@@ -85,7 +229,7 @@ function readAttachment(file){
 $('type').onchange=updateAttachmentRule;
 $('sickType').onchange=updateAttachmentRule;
 $('clearFile').onclick=resetAttachment;
-$('attachment').onchange=()=>{const file=$('attachment').files[0];$('attachment').setCustomValidity('');$('clearFile').hidden=!file;try{validateFile(file);$('fileInfo').textContent=file?file.name+' · '+(file.size/1024/1024).toFixed(2)+' MB':'ยังไม่ได้เลือกไฟล์';}catch(error){$('attachment').setCustomValidity(error.message);$('fileInfo').textContent=error.message;$('attachment').reportValidity();}};
+$('attachment').onchange=()=>{const file=$('attachment').files[0];$('attachment').setCustomValidity('');$('clearFile').hidden=!file;try{validateFile(file);$('fileInfo').textContent=file?file.name+' ('+(file.size/1024/1024).toFixed(2)+' MB)':'ยังไม่ได้เลือกไฟล์';}catch(error){$('attachment').setCustomValidity(error.message);$('fileInfo').textContent=error.message;$('attachment').reportValidity();}};
 $('leaveForm').onsubmit=async e=>{
  e.preventDefault();if(busy||!state||state.user.employeeId!==$('employee').value)return;
  updateAttachmentRule();if(!e.target.reportValidity())return;
@@ -93,7 +237,7 @@ $('leaveForm').onsubmit=async e=>{
  if(!input.type){notify('กรุณาเลือกประเภทลาและรูปแบบการลาป่วยให้ครบ',true);return;}
  const file=$('type').value==='AL'?null:$('attachment').files[0];setBusy(true);$('submit').textContent=file?'กำลังอัปโหลดและส่งคำขอ…':'กำลังส่งคำขอ…';
  try{input.attachment=await readAttachment(file);const result=await rpc('submitLeave',input);$('start').value='';$('end').value='';$('reason').value='';resetAttachment();notify(result.message);try{await load();}catch(err){notify(result.message+' แต่โหลดรายการใหม่ไม่ได้ กรุณากดรีเฟรช',true);}}
- catch(err){notify(err.message,true);}finally{setBusy(false);$('submit').textContent='ส่งคำขอลา ↗';}
+ catch(err){notify(err.message,true);}finally{setBusy(false);$('submit').textContent='ส่งคำขอลา';}
 };
 function clearView(){state=null;$('name').value='';$('rows').replaceChildren();['total','pending','approved'].forEach(id=>$(id).textContent='–');$('empty').hidden=false;$('empty').textContent='เลือกชื่อพนักงานเพื่อดูประวัติ';}
 $('employee').onchange=async()=>{$('reason').value='';$('start').value='';$('end').value='';resetAttachment();await refresh();};
