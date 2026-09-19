@@ -230,6 +230,7 @@ $('type').onchange=updateAttachmentRule;
 $('sickType').onchange=updateAttachmentRule;
 $('clearFile').onclick=resetAttachment;
 $('attachment').onchange=()=>{const file=$('attachment').files[0];$('attachment').setCustomValidity('');$('clearFile').hidden=!file;try{validateFile(file);$('fileInfo').textContent=file?file.name+' ('+(file.size/1024/1024).toFixed(2)+' MB)':'ยังไม่ได้เลือกไฟล์';}catch(error){$('attachment').setCustomValidity(error.message);$('fileInfo').textContent=error.message;$('attachment').reportValidity();}};
+document.querySelectorAll('input[type="date"]').forEach(el=>el.addEventListener('click',()=>{if(el.showPicker)try{el.showPicker();}catch(e){}}));
 $('leaveForm').onsubmit=async e=>{
  e.preventDefault();if(busy||!state||state.user.employeeId!==$('employee').value)return;
  updateAttachmentRule();if(!e.target.reportValidity())return;
