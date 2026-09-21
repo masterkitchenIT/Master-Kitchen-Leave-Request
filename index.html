@@ -5,12 +5,12 @@
 <title>Master Kitchen: ระบบลางาน</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=Noto+Sans+Myanmar:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
   --bg:#efead8; --paper:#fbf9f1; --ink:#23271f; --ink-soft:#5b5f52; --line:#d6cfb8;
   --brand:#2f6b4f; --amber:#b9791e; --red:#9b3b34;
-  --sans:'IBM Plex Sans',system-ui,sans-serif; --mono:'IBM Plex Mono',ui-monospace,monospace;
+  --sans:'IBM Plex Sans','Noto Sans Myanmar',system-ui,sans-serif; --mono:'IBM Plex Mono',ui-monospace,monospace;
 }
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 var(--sans)}
@@ -20,16 +20,19 @@ button:disabled{opacity:.5;cursor:wait}
 :focus-visible{outline:2px solid var(--brand);outline-offset:2px}
 [hidden]{display:none!important}
 
-header{background:var(--paper);border-bottom:1px solid var(--line);padding:18px 5%;display:flex;justify-content:space-between;align-items:center;gap:16px}
+header{background:var(--paper);border-bottom:1px solid var(--line);padding:18px 5%;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
 .mark{display:flex;align-items:center;gap:12px}
 .logo-img{height:44px;width:auto;display:block}
 .mark-text{font-size:16px;font-weight:600}
+.headerRight{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.langSwitch{display:flex;gap:6px}
+.langSwitch button{border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:20px;padding:5px 12px;font-size:12px;font-weight:500}
+.langSwitch button.active{background:var(--ink);color:var(--paper);border-color:var(--ink)}
 .account{font-size:12.5px;color:var(--ink-soft);text-align:right}
 
 main{max-width:1180px;margin:auto;padding:36px 24px 60px}
 
 .intro h1{font-size:28px;letter-spacing:-.01em;margin:0 0 8px;font-weight:700}
-.intro p{margin:0 0 28px;color:var(--ink-soft);max-width:56ch}
 
 .message{padding:12px 16px;margin-bottom:24px;border-radius:8px;border:1px solid var(--line);background:var(--paper);white-space:pre-wrap;font-size:14px}
 .message.error{border-color:var(--red);color:var(--red);background:#f8ecea}
@@ -104,24 +107,30 @@ footer{text-align:center;font-size:11.5px;color:var(--ink-soft);padding:30px}
 </head>
 <body>
 <header>
-  <div class="mark"><img src="MK_Logo__2_new.png" alt="Master Kitchen Co. Ltd" class="logo-img"><span class="mark-text">ระบบลางาน</span></div>
-  <div class="account" id="account"></div>
+  <div class="mark"><img src="MK_Logo__2_new.png" alt="Master Kitchen Co. Ltd" class="logo-img"><span class="mark-text" id="markText">ระบบลางาน</span></div>
+  <div class="headerRight">
+    <div class="langSwitch" id="langSwitch" role="group" aria-label="Language / ဘာသာစကား">
+      <button type="button" data-lang="th" class="active">ไทย</button>
+      <button type="button" data-lang="my">မြန်မာ</button>
+    </div>
+    <div class="account" id="account"></div>
+  </div>
 </header>
 <main>
 <section class="intro">
-  <h1>จัดการวันลาของคุณ</h1>
+  <h1 id="heroTitle">จัดการวันลาของคุณ</h1>
 </section>
 
 <div id="message" class="message" role="status" aria-live="polite" hidden></div>
 
 <section class="stats" aria-label="สรุปคำขอของฉัน">
-  <div class="stat"><strong id="total">–</strong><span>คำขอทั้งหมด</span></div>
-  <div class="stat"><strong id="pending">–</strong><span>รออนุมัติ</span></div>
-  <div class="stat"><strong id="approved">–</strong><span>อนุมัติแล้ว</span></div>
+  <div class="stat"><strong id="total">–</strong><span id="statTotalLabel">คำขอทั้งหมด</span></div>
+  <div class="stat"><strong id="pending">–</strong><span id="statPendingLabel">รออนุมัติ</span></div>
+  <div class="stat"><strong id="approved">–</strong><span id="statApprovedLabel">อนุมัติแล้ว</span></div>
 </section>
 
 <section class="picker">
-  <label for="employee">เลือกชื่อพนักงาน</label>
+  <label for="employee" id="employeeSelectLabel">เลือกชื่อพนักงาน</label>
   <select id="employee" disabled aria-describedby="employeeHelp"><option value="">กำลังโหลดรายชื่อ…</option></select>
   <p class="sub" id="employeeHelp">เลือกชื่อของคุณ ระบบจะแสดงประวัติการลาให้อัตโนมัติ</p>
   <a id="adminLink" href="admin.html" target="_blank" rel="noopener noreferrer" hidden>สำหรับผู้อนุมัติ</a>
@@ -129,16 +138,15 @@ footer{text-align:center;font-size:11.5px;color:var(--ink-soft);padding:30px}
 
 <div class="layout">
 <section class="panel">
-  <h2>ออกคำขอลาใหม่</h2>
+  <h2 id="formTitle">ออกคำขอลาใหม่</h2>
   <form id="leaveForm">
     <fieldset id="fields" disabled>
-      <div class="field"><label for="name">ชื่อ–นามสกุล</label><input id="name" readonly placeholder="เลือกชื่อพนักงานด้านบน"></div>
-      <div class="field"><label for="type">ประเภทการลา</label><select id="type" required></select></div>
-      <div class="field" id="sickTypeField" hidden><label for="sickType">รูปแบบการลาป่วย *</label><select id="sickType" disabled><option value="">— เลือกรูปแบบการลาป่วย —</option><option value="SK">มีใบรับรองแพทย์</option><option value="SKN">ไม่มีใบรับรองแพทย์</option></select></div>
-      <div class="dates"><div class="field"><label for="start">วันที่เริ่ม</label><input type="date" id="start" name="start" required></div><div class="field"><label for="end">วันที่สิ้นสุด</label><input type="date" id="end" name="end" required></div></div>
-      <div class="field"><label for="reason">เหตุผลการลา</label><textarea id="reason" name="reason" required maxlength="1000" placeholder="ระบุรายละเอียดที่จำเป็นสำหรับผู้อนุมัติ"></textarea></div>
-      <div class="field" id="attachmentField" hidden><label for="attachment">รูปภาพหรือเอกสารอ้างอิง <span id="attachmentRequired"></span></label><input type="file" id="attachment" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" aria-describedby="attachmentHint fileInfo"><p class="sub" id="attachmentHint"></p><p class="sub" id="fileInfo" aria-live="polite">ยังไม่ได้เลือกไฟล์</p><button type="button" class="secondary" id="clearFile" hidden style="margin-top:8px">นำไฟล์ออก</button></div>
-      <p class="hint">นับวันลาเต็มวัน เฉพาะจันทร์–ศุกร์<br>ยังไม่หักวันหยุดนักขัตฤกษ์และไม่ตรวจโควตาวันลา</p>
+      <div class="field"><label for="name" id="labelName">ชื่อ–นามสกุล</label><input id="name" readonly placeholder="เลือกชื่อพนักงานด้านบน"></div>
+      <div class="field"><label for="type" id="labelType">ประเภทการลา</label><select id="type" required></select></div>
+      <div class="field" id="sickTypeField" hidden><label for="sickType" id="labelSick">รูปแบบการลาป่วย *</label><select id="sickType" disabled><option value="">— เลือกรูปแบบการลาป่วย —</option><option value="SK">มีใบรับรองแพทย์</option><option value="SKN">ไม่มีใบรับรองแพทย์</option></select></div>
+      <div class="dates"><div class="field"><label for="start" id="labelStart">วันที่เริ่ม</label><input type="date" id="start" name="start" required></div><div class="field"><label for="end" id="labelEnd">วันที่สิ้นสุด</label><input type="date" id="end" name="end" required></div></div>
+      <div class="field"><label for="reason" id="labelReason">เหตุผลการลา</label><textarea id="reason" name="reason" required maxlength="1000" placeholder="ระบุรายละเอียดที่จำเป็นสำหรับผู้อนุมัติ"></textarea></div>
+      <div class="field" id="attachmentField" hidden><label for="attachment"><span id="attachmentLabelText">รูปภาพหรือเอกสารอ้างอิง</span> <span id="attachmentRequired"></span></label><input type="file" id="attachment" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" aria-describedby="attachmentHint fileInfo"><p class="sub" id="attachmentHint"></p><p class="sub" id="fileInfo" aria-live="polite">ยังไม่ได้เลือกไฟล์</p><button type="button" class="secondary" id="clearFile" hidden style="margin-top:8px">นำไฟล์ออก</button></div>
     </fieldset>
     <button class="primary" id="submit" disabled>ส่งคำขอลา</button>
   </form>
@@ -146,58 +154,215 @@ footer{text-align:center;font-size:11.5px;color:var(--ink-soft);padding:30px}
 
 <section class="panel">
   <div class="tabletop">
-    <div><h2 id="listTitle">ประวัติการลาของฉัน</h2><p>รายการล่าสุดแสดงเป็นอันดับแรก</p></div>
+    <div><h2 id="listTitle">ประวัติการลาของฉัน</h2><p id="listSubtitle">รายการล่าสุดแสดงเป็นอันดับแรก</p></div>
     <button class="secondary" id="refresh">รีเฟรช</button>
   </div>
   <div class="filters" id="filters">
-    <button class="active" data-filter="ทั้งหมด" aria-pressed="true">ทั้งหมด</button>
-    <button data-filter="รออนุมัติ" aria-pressed="false">รออนุมัติ</button>
-    <button data-filter="อนุมัติ" aria-pressed="false">อนุมัติ</button>
-    <button data-filter="ไม่อนุมัติ" aria-pressed="false">ไม่อนุมัติ</button>
+    <button class="active" data-filter="all" aria-pressed="true">ทั้งหมด</button>
+    <button data-filter="pending" aria-pressed="false">รออนุมัติ</button>
+    <button data-filter="approved" aria-pressed="false">อนุมัติ</button>
+    <button data-filter="rejected" aria-pressed="false">ไม่อนุมัติ</button>
   </div>
-  <div class="scroll"><table><thead><tr><th>ผู้ลา / ประเภท</th><th>ช่วงวันที่</th><th>วัน</th><th>สถานะ</th></tr></thead><tbody id="rows"></tbody></table></div>
+  <div class="scroll"><table><thead><tr><th id="thName">ผู้ลา / ประเภท</th><th id="thDate">ช่วงวันที่</th><th id="thDays">วัน</th><th id="thStatus">สถานะ</th></tr></thead><tbody id="rows"></tbody></table></div>
   <div class="empty" id="empty">กำลังโหลดข้อมูล…</div>
 </section>
 </div>
 </main>
-<footer>Master Kitchen · ระบบลางานภายในองค์กร</footer>
+<footer><span id="footerText">Master Kitchen ระบบลางานภายในองค์กร</span></footer>
 
 <script>
 // ⚠️ แก้บรรทัดนี้: วางลิงก์เว็บแอป Apps Script ของคุณ (ลงท้ายด้วย /exec)
-// วิธีหา: ใน Apps Script กด Deploy > Manage deployments > คัดลอก Web app URL
 const API_URL = 'https://script.google.com/macros/s/AKfycbygBJIl36KUfK0ZesDenluz-p-Q8XPHjpcPhkoOD_79xh92Vxv6iTxThp76OjWYGF5H6g/exec';
 
+const I18N = {
+ th:{
+  titleSuffix:'ระบบลางาน',
+  accountModeAdmin:'โหมดผู้อนุมัติ',
+  accountModeEmployee:'เลือกชื่อโดยไม่ล็อกอิน',
+  heroTitle:'จัดการวันลาของคุณ',
+  statTotalLabel:'คำขอทั้งหมด',
+  statPendingLabel:'รออนุมัติ',
+  statApprovedLabel:'อนุมัติแล้ว',
+  employeeSelectLabel:'เลือกชื่อพนักงาน',
+  employeeLoading:'กำลังโหลดรายชื่อ…',
+  employeeHelp:'เลือกชื่อของคุณ ระบบจะแสดงประวัติการลาให้อัตโนมัติ',
+  adminLinkText:'สำหรับผู้อนุมัติ',
+  formTitle:'ออกคำขอลาใหม่',
+  nameLabel:'ชื่อ–นามสกุล',
+  namePlaceholder:'เลือกชื่อพนักงานด้านบน',
+  typeLabel:'ประเภทการลา',
+  sickTypeLabel:'รูปแบบการลาป่วย *',
+  sickTypeDefaultOption:'— เลือกรูปแบบการลาป่วย —',
+  sickOptionWithCert:'มีใบรับรองแพทย์',
+  sickOptionNoCert:'ไม่มีใบรับรองแพทย์',
+  sickCombinedLabel:'ลาป่วย',
+  startLabel:'วันที่เริ่ม',
+  endLabel:'วันที่สิ้นสุด',
+  reasonLabel:'เหตุผลการลา',
+  reasonPlaceholder:'ระบุรายละเอียดที่จำเป็นสำหรับผู้อนุมัติ',
+  attachmentLabel:'รูปภาพหรือเอกสารอ้างอิง',
+  attachmentRequiredMark:'* จำเป็น',
+  attachmentOptionalMark:'(ถ้ามี)',
+  attachmentHintRequired:'ประเภทนี้ต้องแนบเอกสาร: ',
+  attachmentHintOptional:'แนบรูปภาพหรือเอกสารอ้างอิงได้: ',
+  attachmentHintSuffix:'PDF, JPG หรือ PNG จำนวน 1 ไฟล์ ไม่เกิน 5 MB',
+  fileNone:'ยังไม่ได้เลือกไฟล์',
+  clearFileBtn:'นำไฟล์ออก',
+  submitBtn:'ส่งคำขอลา',
+  submitBtnUploading:'กำลังอัปโหลดและส่งคำขอ…',
+  submitBtnSending:'กำลังส่งคำขอ…',
+  listTitleMine:'ประวัติการลาของฉัน',
+  listTitleAdmin:'คำขอลาของทีม',
+  listSubtitle:'รายการล่าสุดแสดงเป็นอันดับแรก',
+  refreshBtn:'รีเฟรช',
+  filterAll:'ทั้งหมด',
+  filterPending:'รออนุมัติ',
+  filterApproved:'อนุมัติ',
+  filterRejected:'ไม่อนุมัติ',
+  statusPending:'รออนุมัติ',
+  statusApproved:'อนุมัติ',
+  statusRejected:'ไม่อนุมัติ',
+  colName:'ผู้ลา / ประเภท',
+  colDate:'ช่วงวันที่',
+  colDays:'วัน',
+  colStatus:'สถานะ',
+  hasAttachmentText:'แนบเอกสารแล้ว',
+  openDocumentPrefix:'เปิดเอกสาร: ',
+  attachmentFallbackName:'ไฟล์แนบ',
+  byReviewerPrefix:'โดย ',
+  emptyLoading:'กำลังโหลดข้อมูล…',
+  emptySelectEmployee:'เลือกชื่อพนักงานเพื่อดูประวัติ',
+  emptyNoneInCategory:'ยังไม่มีคำขอในหมวดนี้',
+  emptyLoadFail:'ยังโหลดข้อมูลไม่ได้',
+  emptyEmployeeLoadFail:'ยังโหลดรายชื่อไม่ได้',
+  footerText:'Master Kitchen ระบบลางานภายในองค์กร',
+  selectEmployeeDefault:'— เลือกชื่อของคุณ —',
+  employeeLoadFailedOption:'โหลดรายชื่อไม่สำเร็จ',
+  errConnect:'เชื่อมต่อ API ไม่ได้ กรุณาตรวจสอบ API_URL และการ deploy เว็บแอป',
+  errSelectTypeIncomplete:'กรุณาเลือกประเภทลาและรูปแบบการลาป่วยให้ครบ',
+  errFileType:'รองรับเฉพาะ PDF, JPG และ PNG',
+  errFileSize:'ไฟล์ต้องมีขนาดมากกว่า 0 และไม่เกิน 5 MB',
+  errFileNameLength:'ชื่อไฟล์ต้องไม่เกิน 150 ตัวอักษร',
+  errReadFile:'อ่านไฟล์ไม่สำเร็จ กรุณาเลือกไฟล์ใหม่',
+  errReadAbort:'การอ่านไฟล์ถูกยกเลิก',
+  errReloadAfterSubmit:' แต่โหลดรายการใหม่ไม่ได้ กรุณากดรีเฟรช',
+  errBootstrapCode:'กรุณาอัปเดต Code.gs รุ่นรองรับไฟล์แนบก่อน',
+  errNoEmployees:'ไม่พบรายชื่อพนักงาน กรุณาตรวจแท็บกฎและพนักงาน',
+  errPublishAgain:' หากอัปเดตโค้ดแล้ว กรุณาเผยแพร่เวอร์ชันใหม่และกดรีเฟรช'
+ },
+ my:{
+  titleSuffix:'ခွင့်စနစ်',
+  accountModeAdmin:'အတည်ပြုသူ မုဒ်',
+  accountModeEmployee:'လော့ဂ်အင်မလိုဘဲ အမည်ရွေးထားသည်',
+  heroTitle:'သင့်ခွင့်ရက်များကို စီမံပါ',
+  statTotalLabel:'လျှောက်လွှာစုစုပေါင်း',
+  statPendingLabel:'စောင့်ဆိုင်းနေဆဲ',
+  statApprovedLabel:'အတည်ပြုပြီး',
+  employeeSelectLabel:'ဝန်ထမ်းအမည် ရွေးချယ်ပါ',
+  employeeLoading:'အမည်စာရင်း ဆွဲယူနေသည်…',
+  employeeHelp:'အထက်တွင် သင့်အမည်ကို ရွေးပါ။ ခွင့်မှတ်တမ်းကို အလိုအလျောက် ပြသပါမည်',
+  adminLinkText:'အတည်ပြုသူအတွက်',
+  formTitle:'ခွင့်လျှောက်လွှာ အသစ် တင်ရန်',
+  nameLabel:'အမည်အပြည့်အစုံ',
+  namePlaceholder:'အထက်တွင် ဝန်ထမ်းအမည် ရွေးပါ',
+  typeLabel:'ခွင့်အမျိုးအစား',
+  sickTypeLabel:'နာမကျန်းခွင့် အမျိုးအစား *',
+  sickTypeDefaultOption:'— အမျိုးအစား ရွေးပါ —',
+  sickOptionWithCert:'ဆေးလက်မှတ် ပါရှိသည်',
+  sickOptionNoCert:'ဆေးလက်မှတ် မပါ',
+  sickCombinedLabel:'နာမကျန်းခွင့်',
+  startLabel:'စတင်ရက်',
+  endLabel:'ပြီးဆုံးရက်',
+  reasonLabel:'အကြောင်းရင်း',
+  reasonPlaceholder:'အတည်ပြုသူအတွက် အသေးစိတ် ဖော်ပြပါ',
+  attachmentLabel:'ပုံ သို့မဟုတ် စာရွက်စာတမ်း',
+  attachmentRequiredMark:'* လိုအပ်သည်',
+  attachmentOptionalMark:'(ရှိလျှင်)',
+  attachmentHintRequired:'ဤအမျိုးအစားအတွက် ပူးတွဲရမည်: ',
+  attachmentHintOptional:'ပူးတွဲနိုင်သည်: ',
+  attachmentHintSuffix:'PDF၊ JPG သို့မဟုတ် PNG ဖိုင် ၁ ခု၊ 5 MB ထက်မကျော်ရ',
+  fileNone:'ဖိုင် မရွေးရသေးပါ',
+  clearFileBtn:'ဖိုင် ဖယ်ရှားရန်',
+  submitBtn:'ခွင့်လျှောက်လွှာ ပို့ရန်',
+  submitBtnUploading:'ဖိုင်တင်ပြီး ပို့နေသည်…',
+  submitBtnSending:'ပို့နေသည်…',
+  listTitleMine:'ကျွန်ုပ်၏ ခွင့်မှတ်တမ်း',
+  listTitleAdmin:'အဖွဲ့၏ ခွင့်လျှောက်လွှာများ',
+  listSubtitle:'နောက်ဆုံးရလဒ်များကို အရင်ပြသည်',
+  refreshBtn:'ပြန်ဆွဲယူရန်',
+  filterAll:'အားလုံး',
+  filterPending:'စောင့်ဆိုင်းနေဆဲ',
+  filterApproved:'အတည်ပြု',
+  filterRejected:'ငြင်းပယ်',
+  statusPending:'စောင့်ဆိုင်းနေဆဲ',
+  statusApproved:'အတည်ပြု',
+  statusRejected:'ငြင်းပယ်',
+  colName:'ခွင့်ယူသူ / အမျိုးအစား',
+  colDate:'ရက်စွဲကာလ',
+  colDays:'ရက်',
+  colStatus:'အခြေအနေ',
+  hasAttachmentText:'ပူးတွဲပြီး',
+  openDocumentPrefix:'ဖွင့်ရန်: ',
+  attachmentFallbackName:'ပူးတွဲဖိုင်',
+  byReviewerPrefix:'အတည်ပြုသူ: ',
+  emptyLoading:'ဆွဲယူနေသည်…',
+  emptySelectEmployee:'မှတ်တမ်းကြည့်ရန် အမည်ရွေးပါ',
+  emptyNoneInCategory:'ဤအမျိုးအစားတွင် လျှောက်လွှာ မရှိသေးပါ',
+  emptyLoadFail:'ဆွဲယူ၍ မရသေးပါ',
+  emptyEmployeeLoadFail:'အမည်စာရင်း ဆွဲယူ၍ မရသေးပါ',
+  footerText:'Master Kitchen အဖွဲ့အတွင်း ခွင့်စနစ်',
+  selectEmployeeDefault:'— အမည်ရွေးပါ —',
+  employeeLoadFailedOption:'အမည်စာရင်း ဆွဲယူမှု မအောင်မြင်ပါ',
+  errConnect:'API နှင့် ချိတ်ဆက်၍ မရပါ။ API_URL နှင့် web app deploy ကို စစ်ဆေးပါ',
+  errSelectTypeIncomplete:'ခွင့်အမျိုးအစားနှင့် နာမကျန်းခွင့်အမျိုးအစားကို အပြည့်အစုံ ရွေးပါ',
+  errFileType:'PDF၊ JPG နှင့် PNG သာ ခွင့်ပြုသည်',
+  errFileSize:'ဖိုင်အရွယ်အစား 0 ထက်ကြီးပြီး 5 MB ထက် မကျော်ရပါ',
+  errFileNameLength:'ဖိုင်အမည် စာလုံး ၁၅၀ ထက် မပိုရပါ',
+  errReadFile:'ဖိုင်ဖတ်၍ မရပါ။ ဖိုင်အသစ် ပြန်ရွေးပါ',
+  errReadAbort:'ဖိုင်ဖတ်ခြင်း ပယ်ဖျက်ခံရသည်',
+  errReloadAfterSubmit:' သို့သော် စာရင်းအသစ် ပြန်ဆွဲ၍ မရပါ။ ပြန်လည်ဆွဲယူရန် နှိပ်ပါ',
+  errBootstrapCode:'ဖိုင်ပူးတွဲမှု ထောက်ပံ့သော Code.gs ဗားရှင်းကို အရင် update လုပ်ပါ',
+  errNoEmployees:'ဝန်ထမ်းစာရင်း မတွေ့ပါ။ Rules နှင့် Employees tab ကို စစ်ဆေးပါ',
+  errPublishAgain:' ကုဒ်ကို update လုပ်ပြီးပါက ဗားရှင်းအသစ် ထုတ်ပြီး ပြန်လည်ဆွဲယူရန် နှိပ်ပါ'
+ }
+};
+let lang = (function(){try{return localStorage.getItem('leaveSpaceLang')||'th';}catch(e){return 'th';}})();
+function t(key){return (I18N[lang]&&I18N[lang][key])||(I18N.th[key]||key);}
+
 const $ = id => document.getElementById(id);
-let state = null, filter = 'ทั้งหมด', busy = false, bootstrap = null;
+let state = null, filter = 'all', busy = false, bootstrap = null;
 function notify(text, error=false){$('message').textContent=text;$('message').classList.toggle('error',error);$('message').hidden=false;}
 function rpc(method,...args){
  return fetch(API_URL,{method:'POST',body:JSON.stringify({method,args})})
   .then(res=>res.json())
   .then(data=>{if(data&&data.error)throw new Error(data.error);return data&&data.result;})
-  .catch(err=>{if(err instanceof TypeError)throw new Error('เชื่อมต่อ API ไม่ได้ กรุณาตรวจสอบ API_URL และการ deploy เว็บแอป');throw err;});
+  .catch(err=>{if(err instanceof TypeError)throw new Error(t('errConnect'));throw err;});
 }
 function setBusy(value){busy=value;$('fields').disabled=value||!state;$('submit').disabled=value||!state;$('refresh').disabled=value;$('employee').disabled=value||!bootstrap;document.querySelectorAll('.review button').forEach(b=>b.disabled=value);}
 function cell(row,text){const el=document.createElement('td');el.textContent=text;row.appendChild(el);return el;}
 function small(el,text){const s=document.createElement('small');s.textContent=text;el.appendChild(s);}
 function displayDate(value){const parts=String(value).split('-');return parts.length===3?`${parts[2]}/${parts[1]}/${Number(parts[0])+543}`:value;}
+function statusLabel(s){const map={'รออนุมัติ':t('statusPending'),'อนุมัติ':t('statusApproved'),'ไม่อนุมัติ':t('statusRejected')};return map[s]||s;}
 function render(){
  const mine=state.requests.filter(r=>r.employeeId===state.user.employeeId);
  $('total').textContent=mine.length;$('pending').textContent=mine.filter(r=>r.status==='รออนุมัติ').length;$('approved').textContent=mine.filter(r=>r.status==='อนุมัติ').length;
- $('account').textContent=state.user.name+' ('+(state.user.isAdmin?'โหมดผู้อนุมัติ':'เลือกชื่อโดยไม่ล็อกอิน')+')';$('listTitle').textContent=state.user.isAdmin?'คำขอลาของทีม':'ประวัติการลาของฉัน';
- const list=state.requests.filter(r=>filter==='ทั้งหมด'||r.status===filter);$('rows').replaceChildren();$('empty').hidden=!!list.length;$('empty').textContent='ยังไม่มีคำขอในหมวดนี้';
+ $('account').textContent=state.user.name+' ('+(state.user.isAdmin?t('accountModeAdmin'):t('accountModeEmployee'))+')';
+ $('listTitle').textContent=state.user.isAdmin?t('listTitleAdmin'):t('listTitleMine');
+ const statusByFilter={pending:'รออนุมัติ',approved:'อนุมัติ',rejected:'ไม่อนุมัติ'};
+ const list=state.requests.filter(r=>filter==='all'||r.status===statusByFilter[filter]);$('rows').replaceChildren();$('empty').hidden=!!list.length;$('empty').textContent=t('emptyNoneInCategory');
  list.forEach(r=>{const tr=document.createElement('tr');const first=cell(tr,r.name);small(first,r.type);if(state.user.isAdmin)small(first,r.employeeId);
- if(r.hasAttachment){const proof=document.createElement('div');if(state.user.isAdmin&&/^https:\/\/drive\.google\.com\/(file\/d\/|open\?id=)/.test(r.attachmentUrl||'')){const link=document.createElement('a');link.href=r.attachmentUrl;link.target='_blank';link.rel='noopener noreferrer';link.textContent='เปิดเอกสาร: '+(r.attachmentName||'ไฟล์แนบ');proof.appendChild(link);}else{proof.textContent='แนบเอกสารแล้ว';}first.appendChild(proof);}
- cell(tr,displayDate(r.start)+' – '+displayDate(r.end));cell(tr,r.days);const status=cell(tr,'');const badge=document.createElement('span');badge.className='badge'+(r.status==='อนุมัติ'?' approved':r.status==='ไม่อนุมัติ'?' rejected':'');badge.textContent=r.status;status.appendChild(badge);if(r.note)small(status,r.note);if(r.reviewer)small(status,'โดย '+r.reviewer);
+ if(r.hasAttachment){const proof=document.createElement('div');if(state.user.isAdmin&&/^https:\/\/drive\.google\.com\/(file\/d\/|open\?id=)/.test(r.attachmentUrl||'')){const link=document.createElement('a');link.href=r.attachmentUrl;link.target='_blank';link.rel='noopener noreferrer';link.textContent=t('openDocumentPrefix')+(r.attachmentName||t('attachmentFallbackName'));proof.appendChild(link);}else{proof.textContent=t('hasAttachmentText');}first.appendChild(proof);}
+ cell(tr,displayDate(r.start)+' – '+displayDate(r.end));cell(tr,r.days);const status=cell(tr,'');const badge=document.createElement('span');badge.className='badge'+(r.status==='อนุมัติ'?' approved':r.status==='ไม่อนุมัติ'?' rejected':'');badge.textContent=statusLabel(r.status);status.appendChild(badge);if(r.note)small(status,r.note);if(r.reviewer)small(status,t('byReviewerPrefix')+r.reviewer);
  $('rows').appendChild(tr);
  });
 }
 async function load(){if(!$('employee').value){clearView();$('account').textContent='';return;}const data=await rpc('getDashboard',$('employee').value);state=data;$('name').value=data.user.name;populateTypes(data.types);render();}
-async function refresh(){setBusy(true);try{await load();}catch(e){clearView();notify(e.message,true);if(!state)$('empty').textContent='ยังโหลดข้อมูลไม่ได้';}finally{setBusy(false);}}
+async function refresh(){setBusy(true);try{await load();}catch(e){clearView();notify(e.message,true);if(!state)$('empty').textContent=t('emptyLoadFail');}finally{setBusy(false);}}
 $('refresh').onclick=()=>bootstrap?refresh():init();
 $('filters').onclick=e=>{const b=e.target.closest('[data-filter]');if(!b)return;filter=b.dataset.filter;document.querySelectorAll('[data-filter]').forEach(x=>{x.classList.toggle('active',x===b);x.setAttribute('aria-pressed',x===b?'true':'false');});if(state)render();};
 function populateTypes(types){
  const current=$('type').value;bootstrap.types=types;const options=[];let addedSick=false;
- types.forEach(type=>{const code=type.split(' - ')[0];if(code==='SK'||code==='SKN'){if(!addedSick){options.push(new Option('ลาป่วย','SICK'));addedSick=true;}}else options.push(new Option(type,code));});
+ types.forEach(type=>{const code=type.split(' - ')[0];if(code==='SK'||code==='SKN'){if(!addedSick){options.push(new Option(t('sickCombinedLabel'),'SICK'));addedSick=true;}}else options.push(new Option(type,code));});
  $('type').replaceChildren(...options);if(options.some(o=>o.value===current))$('type').value=current;updateAttachmentRule();
 }
 function selectedType(){const code=$('type').value==='SICK'?$('sickType').value:$('type').value;return (bootstrap?.types||[]).find(type=>type.split(' - ')[0]===code)||'';}
@@ -207,40 +372,90 @@ function updateAttachmentRule(){
  const annual=$('type').value==='AL';$('attachmentField').hidden=annual;$('attachment').disabled=annual;
  if(annual)resetAttachment();
  const code=selectedType().split(' - ')[0];const required=!annual&&(bootstrap?.attachmentRequiredCodes||[]).includes(code);
- $('attachment').required=required;$('attachmentRequired').textContent=required?'* จำเป็น':'(ถ้ามี)';
- $('attachmentHint').textContent=(required?'ประเภทนี้ต้องแนบเอกสาร: ':'แนบรูปภาพหรือเอกสารอ้างอิงได้: ')+'PDF, JPG หรือ PNG จำนวน 1 ไฟล์ ไม่เกิน 5 MB';
+ $('attachment').required=required;$('attachmentRequired').textContent=required?t('attachmentRequiredMark'):t('attachmentOptionalMark');
+ $('attachmentHint').textContent=(required?t('attachmentHintRequired'):t('attachmentHintOptional'))+t('attachmentHintSuffix');
 }
-function resetAttachment(){$('attachment').value='';$('attachment').setCustomValidity('');$('fileInfo').textContent='ยังไม่ได้เลือกไฟล์';$('clearFile').hidden=true;}
+function resetAttachment(){$('attachment').value='';$('attachment').setCustomValidity('');$('fileInfo').textContent=t('fileNone');$('clearFile').hidden=true;}
 function validateFile(file){
  if(!file)return;
  const extension=file.name.split('.').pop().toLowerCase();
- if(!['pdf','jpg','jpeg','png'].includes(extension))throw new Error('รองรับเฉพาะ PDF, JPG และ PNG');
- if(!file.size||file.size>(bootstrap?.maxAttachmentBytes||5*1024*1024))throw new Error('ไฟล์ต้องมีขนาดมากกว่า 0 และไม่เกิน 5 MB');
- if(file.name.length>150)throw new Error('ชื่อไฟล์ต้องไม่เกิน 150 ตัวอักษร');
+ if(!['pdf','jpg','jpeg','png'].includes(extension))throw new Error(t('errFileType'));
+ if(!file.size||file.size>(bootstrap?.maxAttachmentBytes||5*1024*1024))throw new Error(t('errFileSize'));
+ if(file.name.length>150)throw new Error(t('errFileNameLength'));
 }
 function readAttachment(file){
  return new Promise((resolve,reject)=>{
   if(!file){resolve(null);return;}validateFile(file);
-  const reader=new FileReader();reader.onerror=()=>reject(new Error('อ่านไฟล์ไม่สำเร็จ กรุณาเลือกไฟล์ใหม่'));reader.onabort=()=>reject(new Error('การอ่านไฟล์ถูกยกเลิก'));
+  const reader=new FileReader();reader.onerror=()=>reject(new Error(t('errReadFile')));reader.onabort=()=>reject(new Error(t('errReadAbort')));
   reader.onload=()=>{const data=String(reader.result).split(',')[1];const ext=file.name.split('.').pop().toLowerCase();resolve({name:file.name,mimeType:ext==='pdf'?'application/pdf':ext==='png'?'image/png':'image/jpeg',data});};reader.readAsDataURL(file);
  });
 }
 $('type').onchange=updateAttachmentRule;
 $('sickType').onchange=updateAttachmentRule;
 $('clearFile').onclick=resetAttachment;
-$('attachment').onchange=()=>{const file=$('attachment').files[0];$('attachment').setCustomValidity('');$('clearFile').hidden=!file;try{validateFile(file);$('fileInfo').textContent=file?file.name+' ('+(file.size/1024/1024).toFixed(2)+' MB)':'ยังไม่ได้เลือกไฟล์';}catch(error){$('attachment').setCustomValidity(error.message);$('fileInfo').textContent=error.message;$('attachment').reportValidity();}};
+$('attachment').onchange=()=>{const file=$('attachment').files[0];$('attachment').setCustomValidity('');$('clearFile').hidden=!file;try{validateFile(file);$('fileInfo').textContent=file?file.name+' ('+(file.size/1024/1024).toFixed(2)+' MB)':t('fileNone');}catch(error){$('attachment').setCustomValidity(error.message);$('fileInfo').textContent=error.message;$('attachment').reportValidity();}};
 document.querySelectorAll('input[type="date"]').forEach(el=>el.addEventListener('click',()=>{if(el.showPicker)try{el.showPicker();}catch(e){}}));
 $('leaveForm').onsubmit=async e=>{
  e.preventDefault();if(busy||!state||state.user.employeeId!==$('employee').value)return;
  updateAttachmentRule();if(!e.target.reportValidity())return;
  const input={employeeId:$('employee').value,type:selectedType(),start:$('start').value,end:$('end').value,reason:$('reason').value};
- if(!input.type){notify('กรุณาเลือกประเภทลาและรูปแบบการลาป่วยให้ครบ',true);return;}
- const file=$('type').value==='AL'?null:$('attachment').files[0];setBusy(true);$('submit').textContent=file?'กำลังอัปโหลดและส่งคำขอ…':'กำลังส่งคำขอ…';
- try{input.attachment=await readAttachment(file);const result=await rpc('submitLeave',input);$('start').value='';$('end').value='';$('reason').value='';resetAttachment();notify(result.message);try{await load();}catch(err){notify(result.message+' แต่โหลดรายการใหม่ไม่ได้ กรุณากดรีเฟรช',true);}}
- catch(err){notify(err.message,true);}finally{setBusy(false);$('submit').textContent='ส่งคำขอลา';}
+ if(!input.type){notify(t('errSelectTypeIncomplete'),true);return;}
+ const file=$('type').value==='AL'?null:$('attachment').files[0];setBusy(true);$('submit').textContent=file?t('submitBtnUploading'):t('submitBtnSending');
+ try{input.attachment=await readAttachment(file);const result=await rpc('submitLeave',input);$('start').value='';$('end').value='';$('reason').value='';resetAttachment();notify(result.message);try{await load();}catch(err){notify(result.message+t('errReloadAfterSubmit'),true);}}
+ catch(err){notify(err.message,true);}finally{setBusy(false);$('submit').textContent=t('submitBtn');}
 };
-function clearView(){state=null;$('name').value='';$('rows').replaceChildren();['total','pending','approved'].forEach(id=>$(id).textContent='–');$('empty').hidden=false;$('empty').textContent='เลือกชื่อพนักงานเพื่อดูประวัติ';}
+function clearView(){state=null;$('name').value='';$('rows').replaceChildren();['total','pending','approved'].forEach(id=>$(id).textContent='–');$('empty').hidden=false;$('empty').textContent=t('emptySelectEmployee');}
 $('employee').onchange=async()=>{$('reason').value='';$('start').value='';$('end').value='';resetAttachment();await refresh();};
-async function init(){setBusy(true);try{bootstrap=await rpc('getBootstrap');$('adminLink').hidden=false;if(!Array.isArray(bootstrap.attachmentRequiredCodes)||!bootstrap.maxAttachmentBytes)throw new Error('กรุณาอัปเดต Code.gs รุ่นรองรับไฟล์แนบก่อน');if(!bootstrap.employees.length)throw new Error('ไม่พบรายชื่อพนักงาน กรุณาตรวจแท็บกฎและพนักงาน');$('employee').replaceChildren(new Option('— เลือกชื่อของคุณ —',''),...bootstrap.employees.map(e=>new Option(e.name+' ('+e.id+')',e.id)));populateTypes(bootstrap.types);await load();}catch(e){bootstrap=null;clearView();$('employee').replaceChildren(new Option('โหลดรายชื่อไม่สำเร็จ',''));notify(e.message+' หากอัปเดตโค้ดแล้ว กรุณาเผยแพร่เวอร์ชันใหม่และกดรีเฟรช',true);$('empty').textContent='ยังโหลดรายชื่อไม่ได้';}finally{setBusy(false);}}
+
+function applyLanguage(newLang){
+ lang=(newLang==='my')?'my':'th';
+ try{localStorage.setItem('leaveSpaceLang',lang);}catch(e){}
+ document.documentElement.lang=lang==='my'?'my':'th';
+ document.querySelectorAll('#langSwitch button').forEach(b=>b.classList.toggle('active',b.dataset.lang===lang));
+ document.title='Master Kitchen: '+t('titleSuffix');
+ $('markText').textContent=t('titleSuffix');
+ $('heroTitle').textContent=t('heroTitle');
+ $('statTotalLabel').textContent=t('statTotalLabel');
+ $('statPendingLabel').textContent=t('statPendingLabel');
+ $('statApprovedLabel').textContent=t('statApprovedLabel');
+ $('employeeSelectLabel').textContent=t('employeeSelectLabel');
+ $('employeeHelp').textContent=t('employeeHelp');
+ $('adminLink').textContent=t('adminLinkText');
+ $('formTitle').textContent=t('formTitle');
+ $('labelName').textContent=t('nameLabel');
+ $('name').placeholder=t('namePlaceholder');
+ $('labelType').textContent=t('typeLabel');
+ $('labelSick').textContent=t('sickTypeLabel');
+ $('labelStart').textContent=t('startLabel');
+ $('labelEnd').textContent=t('endLabel');
+ $('labelReason').textContent=t('reasonLabel');
+ $('reason').placeholder=t('reasonPlaceholder');
+ $('attachmentLabelText').textContent=t('attachmentLabel');
+ if($('sickType').options[0])$('sickType').options[0].textContent=t('sickTypeDefaultOption');
+ if($('sickType').options[1])$('sickType').options[1].textContent=t('sickOptionWithCert');
+ if($('sickType').options[2])$('sickType').options[2].textContent=t('sickOptionNoCert');
+ $('clearFile').textContent=t('clearFileBtn');
+ if(!$('attachment').files.length)$('fileInfo').textContent=t('fileNone');
+ $('listSubtitle').textContent=t('listSubtitle');
+ $('refresh').textContent=t('refreshBtn');
+ const filterKeys={all:'filterAll',pending:'filterPending',approved:'filterApproved',rejected:'filterRejected'};
+ document.querySelectorAll('#filters button').forEach(b=>{b.textContent=t(filterKeys[b.dataset.filter]);});
+ $('thName').textContent=t('colName');
+ $('thDate').textContent=t('colDate');
+ $('thDays').textContent=t('colDays');
+ $('thStatus').textContent=t('colStatus');
+ $('footerText').textContent=t('footerText');
+ $('submit').textContent=t('submitBtn');
+ $('listTitle').textContent=state?(state.user.isAdmin?t('listTitleAdmin'):t('listTitleMine')):t('listTitleMine');
+ if(!bootstrap){const opt=$('employee').querySelector('option');if(opt)opt.textContent=t('employeeLoading');}
+ if(bootstrap)populateTypes(bootstrap.types);
+ updateAttachmentRule();
+ if(!state)$('empty').textContent=bootstrap?t('emptySelectEmployee'):t('emptyLoading');
+ if(state)render();
+}
+document.querySelectorAll('#langSwitch button').forEach(b=>{b.onclick=()=>applyLanguage(b.dataset.lang);});
+
+async function init(){setBusy(true);try{bootstrap=await rpc('getBootstrap');$('adminLink').hidden=false;if(!Array.isArray(bootstrap.attachmentRequiredCodes)||!bootstrap.maxAttachmentBytes)throw new Error(t('errBootstrapCode'));if(!bootstrap.employees.length)throw new Error(t('errNoEmployees'));$('employee').replaceChildren(new Option(t('selectEmployeeDefault'),''),...bootstrap.employees.map(e=>new Option(e.name+' ('+e.id+')',e.id)));populateTypes(bootstrap.types);await load();}catch(e){bootstrap=null;clearView();$('employee').replaceChildren(new Option(t('employeeLoadFailedOption'),''));notify(e.message+t('errPublishAgain'),true);$('empty').textContent=t('emptyEmployeeLoadFail');}finally{setBusy(false);}}
+applyLanguage(lang);
 init();
 </script></body></html>
