@@ -9,6 +9,7 @@
 .logo-img{height:44px;width:auto;display:block}
 .logo-login{height:56px;width:auto;display:block;margin:0 auto 18px}
 .mark-text{font-size:16px;font-weight:bold;color:var(--green)}
+.translate-link{font-size:12px;display:inline-block;margin-top:6px}
 </style>
 </head>
 <body>
@@ -53,10 +54,13 @@ function render(){
  list.slice(page*PAGE_SIZE,(page+1)*PAGE_SIZE).forEach(r=>{const tr=document.createElement('tr');const name=cell(tr,r.name);small(name,r.employeeId);const period=cell(tr,r.type);small(period,date(r.start)+' – '+date(r.end));cell(tr,r.days);const state=cell(tr,'');const badge=document.createElement('span');badge.className='badge'+(r.status==='อนุมัติ'?' approved':r.status==='ไม่อนุมัติ'?' rejected':'');badge.textContent=r.status;state.appendChild(badge);if(r.reviewer)small(state,r.reviewer);if(r.reviewedAt)small(state,timestamp(r.reviewedAt));const action=cell(tr,'');const button=document.createElement('button');button.className='secondary';button.textContent='ดูรายละเอียด';button.setAttribute('data-open',r.id);button.disabled=busy;button.onclick=()=>openDetail(r);action.appendChild(button);$('rows').appendChild(tr);});
  $('empty').hidden=!!list.length;$('count').textContent=list.length+' รายการ · หน้า '+(list.length?page+1:0)+' / '+Math.ceil(list.length/PAGE_SIZE);$('previous').disabled=page===0;$('next').disabled=(page+1)*PAGE_SIZE>=list.length;
 }
-function info(label,value){const p=document.createElement('p');const b=document.createElement('b');b.textContent=label;p.appendChild(b);const text=document.createElement('span');text.className='text';text.textContent=value;$('detailInfo').appendChild(p);p.appendChild(text);}
+function info(label,value){const p=document.createElement('p');const b=document.createElement('b');b.textContent=label;p.appendChild(b);const text=document.createElement('span');text.className='text';text.textContent=value;$('detailInfo').appendChild(p);p.appendChild(text);return p;}
 function openDetail(r){
  selected=r;$('detailInfo').replaceChildren();$('detailMessage').hidden=true;$('note').value='';
- info('ผู้ขอลา',r.name+' ('+r.employeeId+')');info('ประเภทลา',r.type);info('ช่วงวันที่',date(r.start)+' – '+date(r.end)+' · '+r.days+' วัน');info('เหตุผล',r.reason);info('ส่งคำขอเมื่อ',timestamp(r.createdAt));info('สถานะ',r.status);
+ info('ผู้ขอลา',r.name+' ('+r.employeeId+')');info('ประเภทลา',r.type);info('ช่วงวันที่',date(r.start)+' – '+date(r.end)+' · '+r.days+' วัน');
+ const reasonEl=info('เหตุผล',r.reason);
+ if(r.reason){const translateLink=document.createElement('a');translateLink.className='translate-link';translateLink.href='https://translate.google.com/?sl=auto&tl=th&text='+encodeURIComponent(r.reason)+'&op=translate';translateLink.target='_blank';translateLink.rel='noopener noreferrer';translateLink.textContent='แปลข้อความนี้เป็นภาษาไทย (Google แปลภาษา) ↗';reasonEl.appendChild(document.createElement('br'));reasonEl.appendChild(translateLink);}
+ info('ส่งคำขอเมื่อ',timestamp(r.createdAt));info('สถานะ',r.status);
  if(r.attachmentUrl&&/^https:\/\/drive\.google\.com\/(file\/d\/|open\?id=)/.test(r.attachmentUrl)){const a=document.createElement('a');a.href=r.attachmentUrl;a.target='_blank';a.rel='noopener noreferrer';a.textContent='เปิดเอกสาร: '+(r.attachmentName||'ไฟล์แนบ');$('detailInfo').appendChild(a);info('การเปิดเอกสาร','ใช้บัญชี Google ที่มีสิทธิ์ดูโฟลเดอร์เอกสาร');}else info('เอกสารประกอบ','ไม่มีไฟล์แนบ');
  if(r.reviewer){info('ผู้พิจารณา',r.reviewer);info('พิจารณาเมื่อ',timestamp(r.reviewedAt));}if(r.note)info('หมายเหตุ',r.note);
  const own=!!user.employeeId&&r.employeeId===user.employeeId;$('ownHint').hidden=!own;$('decision').hidden=r.status!=='รออนุมัติ'||own;$('detail').showModal();
