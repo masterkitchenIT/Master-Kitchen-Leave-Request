@@ -47,8 +47,8 @@ main{max-width:1180px;margin:auto;padding:36px 24px 60px}
 .picker label{display:block;font-size:13px;font-weight:600;margin-bottom:8px}
 .picker select{width:100%;max-width:420px}
 .picker .sub{margin:10px 0 0;font-size:12.5px;color:var(--ink-soft);max-width:60ch}
-#adminLink{display:inline-block;margin-top:14px;font-size:13px;color:var(--brand);text-decoration:none;border-bottom:1px solid var(--brand)}
-#adminLink:hover{opacity:.8}
+.portal-link{display:inline-block;margin-top:14px;margin-right:20px;font-size:13px;color:var(--brand);text-decoration:none;border-bottom:1px solid var(--brand)}
+.portal-link:hover{opacity:.8}
 
 input,select,textarea{width:100%;border:1px solid var(--line);border-radius:8px;padding:10px 12px;background:var(--paper)}
 textarea{resize:vertical;min-height:92px}
@@ -133,7 +133,8 @@ footer{text-align:center;font-size:11.5px;color:var(--ink-soft);padding:30px}
   <label for="employee" id="employeeSelectLabel">เลือกชื่อพนักงาน</label>
   <select id="employee" disabled aria-describedby="employeeHelp"><option value="">กำลังโหลดรายชื่อ…</option></select>
   <p class="sub" id="employeeHelp">เลือกชื่อของคุณ ระบบจะแสดงประวัติการลาให้อัตโนมัติ</p>
-  <a id="adminLink" href="admin.html" target="_blank" rel="noopener noreferrer" hidden>สำหรับผู้อนุมัติ</a>
+  <a id="adminLink" class="portal-link" href="admin.html" target="_blank" rel="noopener noreferrer" hidden>สำหรับผู้อนุมัติ</a>
+  <a id="otLink" class="portal-link" href="ot.html" hidden>แจ้ง OT / เบิกจ่าย</a>
 </section>
 
 <div class="layout">
@@ -187,6 +188,7 @@ const I18N = {
   employeeLoading:'กำลังโหลดรายชื่อ…',
   employeeHelp:'เลือกชื่อของคุณ ระบบจะแสดงประวัติการลาให้อัตโนมัติ',
   adminLinkText:'สำหรับผู้อนุมัติ',
+  otLinkText:'แจ้ง OT / เบิกจ่าย',
   formTitle:'ออกคำขอลาใหม่',
   nameLabel:'ชื่อ–นามสกุล',
   namePlaceholder:'เลือกชื่อพนักงานด้านบน',
@@ -262,6 +264,7 @@ const I18N = {
   employeeLoading:'အမည်စာရင်း ဆွဲယူနေသည်…',
   employeeHelp:'အထက်တွင် သင့်အမည်ကို ရွေးပါ။ ခွင့်မှတ်တမ်းကို အလိုအလျောက် ပြသပါမည်',
   adminLinkText:'အတည်ပြုသူအတွက်',
+  otLinkText:'အချိန်ပို/ကုန်ကျစရိတ် တင်ရန်',
   formTitle:'ခွင့်လျှောက်လွှာ အသစ် တင်ရန်',
   nameLabel:'အမည်အပြည့်အစုံ',
   namePlaceholder:'အထက်တွင် ဝန်ထမ်းအမည် ရွေးပါ',
@@ -421,6 +424,7 @@ function applyLanguage(newLang){
  $('employeeSelectLabel').textContent=t('employeeSelectLabel');
  $('employeeHelp').textContent=t('employeeHelp');
  $('adminLink').textContent=t('adminLinkText');
+ $('otLink').textContent=t('otLinkText');
  $('formTitle').textContent=t('formTitle');
  $('labelName').textContent=t('nameLabel');
  $('name').placeholder=t('namePlaceholder');
@@ -455,7 +459,7 @@ function applyLanguage(newLang){
 }
 document.querySelectorAll('#langSwitch button').forEach(b=>{b.onclick=()=>applyLanguage(b.dataset.lang);});
 
-async function init(){setBusy(true);try{bootstrap=await rpc('getBootstrap');$('adminLink').hidden=false;if(!Array.isArray(bootstrap.attachmentRequiredCodes)||!bootstrap.maxAttachmentBytes)throw new Error(t('errBootstrapCode'));if(!bootstrap.employees.length)throw new Error(t('errNoEmployees'));$('employee').replaceChildren(new Option(t('selectEmployeeDefault'),''),...bootstrap.employees.map(e=>new Option(e.name+' ('+e.id+')',e.id)));populateTypes(bootstrap.types);await load();}catch(e){bootstrap=null;clearView();$('employee').replaceChildren(new Option(t('employeeLoadFailedOption'),''));notify(e.message+t('errPublishAgain'),true);$('empty').textContent=t('emptyEmployeeLoadFail');}finally{setBusy(false);}}
+async function init(){setBusy(true);try{bootstrap=await rpc('getBootstrap');$('adminLink').hidden=false;$('otLink').hidden=false;if(!Array.isArray(bootstrap.attachmentRequiredCodes)||!bootstrap.maxAttachmentBytes)throw new Error(t('errBootstrapCode'));if(!bootstrap.employees.length)throw new Error(t('errNoEmployees'));$('employee').replaceChildren(new Option(t('selectEmployeeDefault'),''),...bootstrap.employees.map(e=>new Option(e.name+' ('+e.id+')',e.id)));populateTypes(bootstrap.types);await load();}catch(e){bootstrap=null;clearView();$('employee').replaceChildren(new Option(t('employeeLoadFailedOption'),''));notify(e.message+t('errPublishAgain'),true);$('empty').textContent=t('emptyEmployeeLoadFail');}finally{setBusy(false);}}
 applyLanguage(lang);
 init();
 </script></body></html>
