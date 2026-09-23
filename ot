@@ -1,0 +1,391 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Master Kitchen: OT / เบิกจ่าย</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=Noto+Sans+Myanmar:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#efead8; --paper:#fbf9f1; --ink:#23271f; --ink-soft:#5b5f52; --line:#d6cfb8;
+  --brand:#2f6b4f; --amber:#b9791e; --red:#9b3b34;
+  --sans:'IBM Plex Sans','Noto Sans Myanmar',system-ui,sans-serif; --mono:'IBM Plex Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 var(--sans)}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+button:disabled{opacity:.5;cursor:wait}
+:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+[hidden]{display:none!important}
+
+header{background:var(--paper);border-bottom:1px solid var(--line);padding:18px 5%;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.mark{display:flex;align-items:center;gap:12px}
+.logo-img{height:44px;width:auto;display:block}
+.mark-text{font-size:16px;font-weight:600}
+.headerRight{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.langSwitch{display:flex;gap:6px}
+.langSwitch button{border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:20px;padding:5px 12px;font-size:12px;font-weight:500}
+.langSwitch button.active{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.account{font-size:12.5px;color:var(--ink-soft);text-align:right}
+
+main{max-width:1180px;margin:auto;padding:36px 24px 60px}
+
+.intro h1{font-size:28px;letter-spacing:-.01em;margin:0 0 8px;font-weight:700}
+.backLink{display:inline-block;margin-bottom:16px;font-size:13px;color:var(--brand);text-decoration:none;border-bottom:1px solid var(--brand)}
+.backLink:hover{opacity:.8}
+
+.message{padding:12px 16px;margin-bottom:24px;border-radius:8px;border:1px solid var(--line);background:var(--paper);white-space:pre-wrap;font-size:14px}
+.message.error{border-color:var(--red);color:var(--red);background:#f8ecea}
+
+.stats{display:flex;border:1px dashed var(--line);border-radius:10px;overflow:hidden;background:var(--paper);margin-bottom:28px}
+.stat{flex:1;padding:16px 20px;border-right:1px dashed var(--line)}
+.stat:last-child{border-right:0}
+.stat strong{display:block;font-family:var(--mono);font-size:28px;font-weight:600;line-height:1.2}
+.stat span{font-size:12.5px;color:var(--ink-soft)}
+
+.picker{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:22px;margin-bottom:26px}
+.picker label{display:block;font-size:13px;font-weight:600;margin-bottom:8px}
+.picker select{width:100%;max-width:420px}
+.picker .sub{margin:10px 0 0;font-size:12.5px;color:var(--ink-soft);max-width:60ch}
+
+input,select,textarea{width:100%;border:1px solid var(--line);border-radius:8px;padding:10px 12px;background:var(--paper)}
+textarea{resize:vertical;min-height:92px}
+
+.layout{display:grid;grid-template-columns:360px 1fr;gap:22px;align-items:start}
+.panel{position:relative;background:var(--paper);border:1px solid var(--line);border-radius:6px 6px 14px 14px;padding:24px}
+.panel::before,.panel::after{content:'';position:absolute;top:-8px;width:16px;height:16px;border-radius:50%;background:var(--bg);border:1px solid var(--line)}
+.panel::before{left:-8px}
+.panel::after{right:-8px}
+.panel h2{font-size:17px;font-weight:600;margin:0 0 4px}
+
+fieldset{border:0;padding:0;margin:0;min-width:0}
+.field{margin-top:16px}
+.field label{display:block;font-size:13px;font-weight:600;margin-bottom:6px}
+.dates{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.hint{font-size:12px;color:var(--ink-soft);margin:4px 0 0}
+
+.primary,.secondary{border-radius:8px;padding:10px 18px;border:0;font-weight:600;font-size:14px}
+.primary{background:var(--brand);color:var(--paper)}
+.secondary{background:transparent;border:1px solid var(--line);color:var(--ink)}
+form>.primary{width:100%;margin-top:22px}
+
+.tabletop{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px}
+.tabletop p{margin:2px 0 0;font-size:12.5px;color:var(--ink-soft)}
+
+.scroll{overflow:auto}
+table{width:100%;border-collapse:separate;border-spacing:0 10px;font-size:13px}
+thead th{text-align:left;font-weight:500;font-size:12px;color:var(--ink-soft);padding:0 14px 4px}
+tbody tr{background:var(--bg)}
+td{padding:13px 14px;border-top:1px dashed var(--line);border-bottom:1px dashed var(--line);vertical-align:top}
+td:first-child{border-left:1px dashed var(--line);border-top-left-radius:8px;border-bottom-left-radius:8px}
+td:last-child{border-right:1px dashed var(--line);border-top-right-radius:8px;border-bottom-right-radius:8px}
+td small{display:block;color:var(--ink-soft);margin-top:2px;font-size:12px}
+
+.badge{display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.03em;padding:3px 9px;border:1.5px solid var(--brand);color:var(--brand);border-radius:4px;transform:rotate(-3deg)}
+
+.empty{text-align:center;padding:44px 10px;color:var(--ink-soft)}
+footer{text-align:center;font-size:11.5px;color:var(--ink-soft);padding:30px}
+
+@media(max-width:960px){.layout{grid-template-columns:1fr}}
+@media(max-width:560px){
+  main{padding:26px 16px 48px}
+  header{padding:16px;flex-direction:column;align-items:flex-start;gap:10px}
+  .account{text-align:left}
+  .stats{flex-direction:column}
+  .stat{border-right:0;border-bottom:1px dashed var(--line)}
+  .stat:last-child{border-bottom:0}
+  .intro h1{font-size:24px}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="mark"><img src="MK_Logo__2_new.png" alt="Master Kitchen Co. Ltd" class="logo-img"><span class="mark-text" id="markText">OT / เบิกจ่าย</span></div>
+  <div class="headerRight">
+    <div class="langSwitch" id="langSwitch" role="group" aria-label="Language / ဘာသာစကား">
+      <button type="button" data-lang="th" class="active">ไทย</button>
+      <button type="button" data-lang="my">မြန်မာ</button>
+    </div>
+    <div class="account" id="account"></div>
+  </div>
+</header>
+<main>
+<a class="backLink" href="index.html" id="backLink">กลับหน้าหลัก</a>
+<section class="intro">
+  <h1 id="heroTitle">แจ้ง OT / เบิกจ่าย</h1>
+</section>
+
+<div id="message" class="message" role="status" aria-live="polite" hidden></div>
+
+<section class="stats" aria-label="สรุปของฉัน">
+  <div class="stat"><strong id="total">–</strong><span id="statTotalLabel">รายการทั้งหมด</span></div>
+</section>
+
+<section class="picker">
+  <label for="employee" id="employeeSelectLabel">เลือกชื่อพนักงาน</label>
+  <select id="employee" disabled aria-describedby="employeeHelp"><option value="">กำลังโหลดรายชื่อ…</option></select>
+  <p class="sub" id="employeeHelp">เลือกชื่อของคุณ ระบบจะแสดงประวัติให้อัตโนมัติ</p>
+</section>
+
+<div class="layout">
+<section class="panel">
+  <h2 id="formTitle">ส่งคำขอใหม่</h2>
+  <form id="otForm">
+    <fieldset id="fields" disabled>
+      <div class="field"><label for="name" id="labelName">ชื่อ–นามสกุล</label><input id="name" readonly placeholder="เลือกชื่อพนักงานด้านบน"></div>
+      <div class="field"><label for="department" id="labelDepartment">แผนก</label><input id="department" readonly></div>
+      <div class="field"><label for="type" id="labelType">ประเภท</label><select id="type" required></select></div>
+      <div class="field" id="typeDetailField" hidden><label for="typeDetail" id="labelTypeDetail">ระบุประเภท *</label><input id="typeDetail" maxlength="200"></div>
+      <div class="field"><label for="reason" id="labelReason">เหตุผล / รายละเอียด</label><textarea id="reason" required maxlength="500" placeholder="ระบุรายละเอียดงานที่ทำ"></textarea></div>
+      <div class="field"><label for="qty" id="labelQty">จำนวน</label><input id="qty" type="number" step="0.5" min="0.5" max="999" required><p class="hint" id="qtyHint">วัน: 0.5 หรือ 1 &nbsp;|&nbsp; ชั่วโมง: ฐาน 30 นาที เช่น 0.5, 1, 1.5, 2, 3, 5, 10</p></div>
+      <div class="field"><label for="unit" id="labelUnit">หน่วย</label><select id="unit" required></select></div>
+      <div class="dates"><div class="field"><label for="start" id="labelStart">วันเวลาเริ่ม</label><input type="datetime-local" id="start" required></div><div class="field"><label for="finish" id="labelFinish">วันเวลาสิ้นสุด</label><input type="datetime-local" id="finish" required></div></div>
+      <div class="field"><label for="attachment"><span id="attachmentLabelText">เอกสารประกอบ</span> <span id="attachmentOptionalMark">(ถ้ามี)</span></label><input type="file" id="attachment" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png"><p class="sub" id="attachmentHint"></p><p class="sub" id="fileInfo" aria-live="polite">ยังไม่ได้เลือกไฟล์</p><button type="button" class="secondary" id="clearFile" hidden style="margin-top:8px">นำไฟล์ออก</button></div>
+    </fieldset>
+    <button class="primary" id="submit" disabled>ส่งคำขอ</button>
+  </form>
+</section>
+
+<section class="panel">
+  <div class="tabletop">
+    <div><h2 id="listTitle">ประวัติของฉัน</h2><p id="listSubtitle">รายการล่าสุดแสดงเป็นอันดับแรก</p></div>
+    <button class="secondary" id="refresh">รีเฟรช</button>
+  </div>
+  <div class="scroll"><table><thead><tr><th id="thType">ประเภท / เหตุผล</th><th id="thWhen">ช่วงเวลา</th><th id="thQty">จำนวน</th></tr></thead><tbody id="rows"></tbody></table></div>
+  <div class="empty" id="empty">กำลังโหลดข้อมูล…</div>
+</section>
+</div>
+</main>
+<footer><span id="footerText">Master Kitchen ระบบภายในองค์กร</span></footer>
+
+<script>
+// ⚠️ ต้องเป็นลิงก์เว็บแอป Apps Script เดียวกับที่ตั้งไว้ใน index.html
+const API_URL = 'https://script.google.com/macros/s/AKfycbygBJIl36KUfK0ZesDenluz-p-Q8XPHjpcPhkoOD_79xh92Vxv6iTxThp76OjWYGF5H6g/exec';
+
+const I18N = {
+ th:{
+  titleSuffix:'OT / เบิกจ่าย',
+  markText:'OT / เบิกจ่าย',
+  heroTitle:'แจ้ง OT / เบิกจ่าย',
+  backLinkText:'กลับหน้าหลัก',
+  statTotalLabel:'รายการทั้งหมด',
+  employeeSelectLabel:'เลือกชื่อพนักงาน',
+  employeeLoading:'กำลังโหลดรายชื่อ…',
+  employeeHelp:'เลือกชื่อของคุณ ระบบจะแสดงประวัติให้อัตโนมัติ',
+  formTitle:'ส่งคำขอใหม่',
+  nameLabel:'ชื่อ–นามสกุล',
+  namePlaceholder:'เลือกชื่อพนักงานด้านบน',
+  departmentLabel:'แผนก',
+  typeLabel:'ประเภท',
+  typeDetailLabel:'ระบุประเภท *',
+  reasonLabel:'เหตุผล / รายละเอียด',
+  reasonPlaceholder:'ระบุรายละเอียดงานที่ทำ',
+  qtyLabel:'จำนวน',
+  qtyHint:'วัน: 0.5 หรือ 1  |  ชั่วโมง: ฐาน 30 นาที เช่น 0.5, 1, 1.5, 2, 3, 5, 10',
+  unitLabel:'หน่วย',
+  startLabel:'วันเวลาเริ่ม',
+  finishLabel:'วันเวลาสิ้นสุด',
+  attachmentLabel:'เอกสารประกอบ',
+  attachmentOptionalMark:'(ถ้ามี)',
+  attachmentHint:'แนบได้ถ้ามี — PDF, JPG หรือ PNG จำนวน 1 ไฟล์ ไม่เกิน 5 MB',
+  fileNone:'ยังไม่ได้เลือกไฟล์',
+  clearFileBtn:'นำไฟล์ออก',
+  submitBtn:'ส่งคำขอ',
+  submitBtnUploading:'กำลังอัปโหลดและส่งคำขอ…',
+  submitBtnSending:'กำลังส่งคำขอ…',
+  listTitle:'ประวัติของฉัน',
+  listSubtitle:'รายการล่าสุดแสดงเป็นอันดับแรก',
+  refreshBtn:'รีเฟรช',
+  colType:'ประเภท / เหตุผล',
+  colWhen:'ช่วงเวลา',
+  colQty:'จำนวน',
+  hasAttachmentText:'แนบเอกสารแล้ว',
+  emptyLoading:'กำลังโหลดข้อมูล…',
+  emptySelectEmployee:'เลือกชื่อพนักงานเพื่อดูประวัติ',
+  emptyNone:'ยังไม่มีรายการ',
+  emptyLoadFail:'ยังโหลดข้อมูลไม่ได้',
+  emptyEmployeeLoadFail:'ยังโหลดรายชื่อไม่ได้',
+  footerText:'Master Kitchen ระบบภายในองค์กร',
+  selectEmployeeDefault:'— เลือกชื่อของคุณ —',
+  employeeLoadFailedOption:'โหลดรายชื่อไม่สำเร็จ',
+  errConnect:'เชื่อมต่อ API ไม่ได้ กรุณาตรวจสอบ API_URL และการ deploy เว็บแอป',
+  errFileType:'รองรับเฉพาะ PDF, JPG และ PNG',
+  errFileSize:'ไฟล์ต้องมีขนาดมากกว่า 0 และไม่เกิน 5 MB',
+  errFileNameLength:'ชื่อไฟล์ต้องไม่เกิน 150 ตัวอักษร',
+  errReadFile:'อ่านไฟล์ไม่สำเร็จ กรุณาเลือกไฟล์ใหม่',
+  errReadAbort:'การอ่านไฟล์ถูกยกเลิก',
+  errReloadAfterSubmit:' แต่โหลดรายการใหม่ไม่ได้ กรุณากดรีเฟรช',
+  errNoEmployees:'ไม่พบรายชื่อพนักงาน กรุณาตรวจแท็บกฎและพนักงาน',
+  errPublishAgain:' หากอัปเดตโค้ดแล้ว กรุณาเผยแพร่เวอร์ชันใหม่และกดรีเฟรช'
+ },
+ my:{
+  titleSuffix:'OT / အသုံးစရိတ်',
+  markText:'OT / အသုံးစရိတ်',
+  heroTitle:'OT / အသုံးစရိတ် တင်ရန်',
+  backLinkText:'ပင်မစာမျက်နှာသို့',
+  statTotalLabel:'စာရင်းစုစုပေါင်း',
+  employeeSelectLabel:'ဝန်ထမ်းအမည် ရွေးချယ်ပါ',
+  employeeLoading:'အမည်စာရင်း ဆွဲယူနေသည်…',
+  employeeHelp:'သင့်အမည်ကို ရွေးပါ။ မှတ်တမ်းကို အလိုအလျောက် ပြပါမည်',
+  formTitle:'လျှောက်လွှာအသစ် ပို့ရန်',
+  nameLabel:'အမည်အပြည့်အစုံ',
+  namePlaceholder:'အထက်တွင် ဝန်ထမ်းအမည် ရွေးပါ',
+  departmentLabel:'ဌာန',
+  typeLabel:'အမျိုးအစား',
+  typeDetailLabel:'အမျိုးအစား ဖော်ပြပါ *',
+  reasonLabel:'အကြောင်းရင်း / အသေးစိတ်',
+  reasonPlaceholder:'လုပ်ဆောင်ခဲ့သည့်အလုပ် ဖော်ပြပါ',
+  qtyLabel:'အရေအတွက်',
+  qtyHint:'ရက်: 0.5 သို့မဟုတ် 1  |  နာရီ: မိနစ် 30 အခြေခံ ဥပမာ 0.5, 1, 1.5, 2, 3, 5, 10',
+  unitLabel:'ယူနစ်',
+  startLabel:'စတင်ချိန်',
+  finishLabel:'ပြီးဆုံးချိန်',
+  attachmentLabel:'ပူးတွဲစာရွက်စာတမ်း',
+  attachmentOptionalMark:'(ရှိလျှင်)',
+  attachmentHint:'ရှိလျှင် ပူးတွဲနိုင်သည် — PDF၊ JPG သို့မဟုတ် PNG ဖိုင် ၁ ခု၊ 5 MB ထက်မကျော်ရ',
+  fileNone:'ဖိုင် မရွေးရသေးပါ',
+  clearFileBtn:'ဖိုင် ဖယ်ရှားရန်',
+  submitBtn:'ပို့ရန်',
+  submitBtnUploading:'ဖိုင်တင်ပြီး ပို့နေသည်…',
+  submitBtnSending:'ပို့နေသည်…',
+  listTitle:'ကျွန်ုပ်၏ မှတ်တမ်း',
+  listSubtitle:'နောက်ဆုံးရလဒ်များကို အရင်ပြသည်',
+  refreshBtn:'ပြန်ဆွဲယူရန်',
+  colType:'အမျိုးအစား / အကြောင်းရင်း',
+  colWhen:'အချိန်ကာလ',
+  colQty:'အရေအတွက်',
+  hasAttachmentText:'ပူးတွဲပြီး',
+  emptyLoading:'ဆွဲယူနေသည်…',
+  emptySelectEmployee:'မှတ်တမ်းကြည့်ရန် အမည်ရွေးပါ',
+  emptyNone:'စာရင်း မရှိသေးပါ',
+  emptyLoadFail:'ဆွဲယူ၍ မရသေးပါ',
+  emptyEmployeeLoadFail:'အမည်စာရင်း ဆွဲယူ၍ မရသေးပါ',
+  footerText:'Master Kitchen အဖွဲ့အတွင်း စနစ်',
+  selectEmployeeDefault:'— အမည်ရွေးပါ —',
+  employeeLoadFailedOption:'အမည်စာရင်း ဆွဲယူမှု မအောင်မြင်ပါ',
+  errConnect:'API နှင့် ချိတ်ဆက်၍ မရပါ။ API_URL နှင့် web app deploy ကို စစ်ဆေးပါ',
+  errFileType:'PDF၊ JPG နှင့် PNG သာ ခွင့်ပြုသည်',
+  errFileSize:'ဖိုင်အရွယ်အစား 0 ထက်ကြီးပြီး 5 MB ထက် မကျော်ရပါ',
+  errFileNameLength:'ဖိုင်အမည် စာလုံး ၁၅၀ ထက် မပိုရပါ',
+  errReadFile:'ဖိုင်ဖတ်၍ မရပါ။ ဖိုင်အသစ် ပြန်ရွေးပါ',
+  errReadAbort:'ဖိုင်ဖတ်ခြင်း ပယ်ဖျက်ခံရသည်',
+  errReloadAfterSubmit:' သို့သော် စာရင်းအသစ် ပြန်ဆွဲ၍ မရပါ။ ပြန်လည်ဆွဲယူရန် နှိပ်ပါ',
+  errNoEmployees:'ဝန်ထမ်းစာရင်း မတွေ့ပါ။ Rules နှင့် Employees tab ကို စစ်ဆေးပါ',
+  errPublishAgain:' ကုဒ်ကို update လုပ်ပြီးပါက ဗားရှင်းအသစ် ထုတ်ပြီး ပြန်လည်ဆွဲယူရန် နှိပ်ပါ'
+ }
+};
+let lang = (function(){try{return localStorage.getItem('leaveSpaceLang')||'th';}catch(e){return 'th';}})();
+function t(key){return (I18N[lang]&&I18N[lang][key])||(I18N.th[key]||key);}
+
+const $ = id => document.getElementById(id);
+let state = null, busy = false, bootstrap = null;
+function notify(text, error=false){$('message').textContent=text;$('message').classList.toggle('error',error);$('message').hidden=false;}
+function rpc(method,...args){
+ return fetch(API_URL,{method:'POST',body:JSON.stringify({method,args})})
+  .then(res=>res.json())
+  .then(data=>{if(data&&data.error)throw new Error(data.error);return data&&data.result;})
+  .catch(err=>{if(err instanceof TypeError)throw new Error(t('errConnect'));throw err;});
+}
+function setBusy(value){busy=value;$('fields').disabled=value||!state;$('submit').disabled=value||!state;$('refresh').disabled=value;$('employee').disabled=value||!bootstrap;}
+function cell(row,text){const el=document.createElement('td');el.textContent=text;row.appendChild(el);return el;}
+function small(el,text){const s=document.createElement('small');s.textContent=text;el.appendChild(s);}
+function displayDateTime(value){if(!value)return '';const d=new Date(value);if(!Number.isFinite(d.getTime()))return String(value);const dd=String(d.getDate()).padStart(2,'0'),mm=String(d.getMonth()+1).padStart(2,'0'),yy=d.getFullYear()+543,hh=String(d.getHours()).padStart(2,'0'),mi=String(d.getMinutes()).padStart(2,'0');return `${dd}/${mm}/${yy} ${hh}:${mi}`;}
+function render(){
+ $('total').textContent=state.requests.length;
+ $('rows').replaceChildren();$('empty').hidden=!!state.requests.length;$('empty').textContent=t('emptyNone');
+ state.requests.forEach(r=>{const tr=document.createElement('tr');const first=cell(tr,r.type);small(first,r.reason);if(r.hasAttachment)small(first,t('hasAttachmentText'));
+ cell(tr,displayDateTime(r.start)+' – '+displayDateTime(r.finish));
+ const qtyCell=cell(tr,r.qty+' '+r.unit);
+ $('rows').appendChild(tr);
+ });
+}
+async function load(){if(!$('employee').value){clearView();return;}const data=await rpc('getOTDashboard',$('employee').value);state=data;$('name').value=data.user.name;const emp=(bootstrap.employees||[]).find(e=>e.id===$('employee').value);$('department').value=(emp&&emp.department)||'';populateSelects(data.otTypes,data.otUnits);render();}
+async function refresh(){setBusy(true);try{await load();}catch(e){clearView();notify(e.message,true);if(!state)$('empty').textContent=t('emptyLoadFail');}finally{setBusy(false);}}
+$('refresh').onclick=()=>bootstrap?refresh():init();
+function populateSelects(types,units){
+ const curType=$('type').value;$('type').replaceChildren(...types.map(x=>new Option(x,x)));if(types.includes(curType))$('type').value=curType;
+ const curUnit=$('unit').value;$('unit').replaceChildren(...units.map(x=>new Option(x,x)));if(units.includes(curUnit))$('unit').value=curUnit;
+ updateTypeDetail();
+}
+function updateTypeDetail(){const isOther=$('type').value.indexOf('Other')===0;$('typeDetailField').hidden=!isOther;$('typeDetail').required=isOther;if(!isOther)$('typeDetail').value='';}
+$('type').onchange=updateTypeDetail;
+function resetAttachment(){$('attachment').value='';$('attachment').setCustomValidity('');$('fileInfo').textContent=t('fileNone');$('clearFile').hidden=true;}
+function validateFile(file){
+ if(!file)return;
+ const extension=file.name.split('.').pop().toLowerCase();
+ if(!['pdf','jpg','jpeg','png'].includes(extension))throw new Error(t('errFileType'));
+ if(!file.size||file.size>(bootstrap?.maxAttachmentBytes||5*1024*1024))throw new Error(t('errFileSize'));
+ if(file.name.length>150)throw new Error(t('errFileNameLength'));
+}
+function readAttachment(file){
+ return new Promise((resolve,reject)=>{
+  if(!file){resolve(null);return;}validateFile(file);
+  const reader=new FileReader();reader.onerror=()=>reject(new Error(t('errReadFile')));reader.onabort=()=>reject(new Error(t('errReadAbort')));
+  reader.onload=()=>{const data=String(reader.result).split(',')[1];const ext=file.name.split('.').pop().toLowerCase();resolve({name:file.name,mimeType:ext==='pdf'?'application/pdf':ext==='png'?'image/png':'image/jpeg',data});};reader.readAsDataURL(file);
+ });
+}
+$('clearFile').onclick=resetAttachment;
+$('attachment').onchange=()=>{const file=$('attachment').files[0];$('attachment').setCustomValidity('');$('clearFile').hidden=!file;try{validateFile(file);$('fileInfo').textContent=file?file.name+' ('+(file.size/1024/1024).toFixed(2)+' MB)':t('fileNone');}catch(error){$('attachment').setCustomValidity(error.message);$('fileInfo').textContent=error.message;$('attachment').reportValidity();}};
+document.querySelectorAll('input[type="datetime-local"]').forEach(el=>el.addEventListener('click',()=>{if(el.showPicker)try{el.showPicker();}catch(e){}}));
+$('otForm').onsubmit=async e=>{
+ e.preventDefault();if(busy||!state||state.user.employeeId!==$('employee').value)return;
+ if(!e.target.reportValidity())return;
+ const input={employeeId:$('employee').value,type:$('type').value,typeDetail:$('typeDetail').value,reason:$('reason').value,qty:$('qty').value,unit:$('unit').value,start:$('start').value,finish:$('finish').value};
+ const file=$('attachment').files[0];setBusy(true);$('submit').textContent=file?t('submitBtnUploading'):t('submitBtnSending');
+ try{input.attachment=await readAttachment(file);const result=await rpc('submitOT',input);$('reason').value='';$('qty').value='';$('start').value='';$('finish').value='';$('typeDetail').value='';resetAttachment();notify(result.message);try{await load();}catch(err){notify(result.message+t('errReloadAfterSubmit'),true);}}
+ catch(err){notify(err.message,true);}finally{setBusy(false);$('submit').textContent=t('submitBtn');}
+};
+function clearView(){state=null;$('name').value='';$('department').value='';$('rows').replaceChildren();$('total').textContent='–';$('empty').hidden=false;$('empty').textContent=t('emptySelectEmployee');}
+$('employee').onchange=async()=>{$('reason').value='';$('qty').value='';$('start').value='';$('finish').value='';$('typeDetail').value='';resetAttachment();await refresh();};
+
+function applyLanguage(newLang){
+ lang=(newLang==='my')?'my':'th';
+ try{localStorage.setItem('leaveSpaceLang',lang);}catch(e){}
+ document.documentElement.lang=lang==='my'?'my':'th';
+ document.querySelectorAll('#langSwitch button').forEach(b=>b.classList.toggle('active',b.dataset.lang===lang));
+ document.title='Master Kitchen: '+t('titleSuffix');
+ $('markText').textContent=t('markText');
+ $('heroTitle').textContent=t('heroTitle');
+ $('backLink').textContent=t('backLinkText');
+ $('statTotalLabel').textContent=t('statTotalLabel');
+ $('employeeSelectLabel').textContent=t('employeeSelectLabel');
+ $('employeeHelp').textContent=t('employeeHelp');
+ $('formTitle').textContent=t('formTitle');
+ $('labelName').textContent=t('nameLabel');
+ $('name').placeholder=t('namePlaceholder');
+ $('labelDepartment').textContent=t('departmentLabel');
+ $('labelType').textContent=t('typeLabel');
+ $('labelTypeDetail').textContent=t('typeDetailLabel');
+ $('labelReason').textContent=t('reasonLabel');
+ $('reason').placeholder=t('reasonPlaceholder');
+ $('labelQty').textContent=t('qtyLabel');
+ $('qtyHint').textContent=t('qtyHint');
+ $('labelUnit').textContent=t('unitLabel');
+ $('labelStart').textContent=t('startLabel');
+ $('labelFinish').textContent=t('finishLabel');
+ $('attachmentLabelText').textContent=t('attachmentLabel');
+ $('attachmentOptionalMark').textContent=t('attachmentOptionalMark');
+ $('attachmentHint').textContent=t('attachmentHint');
+ $('clearFile').textContent=t('clearFileBtn');
+ if(!$('attachment').files.length)$('fileInfo').textContent=t('fileNone');
+ $('listTitle').textContent=t('listTitle');
+ $('listSubtitle').textContent=t('listSubtitle');
+ $('refresh').textContent=t('refreshBtn');
+ $('thType').textContent=t('colType');
+ $('thWhen').textContent=t('colWhen');
+ $('thQty').textContent=t('colQty');
+ $('footerText').textContent=t('footerText');
+ $('submit').textContent=t('submitBtn');
+ if(!bootstrap){const opt=$('employee').querySelector('option');if(opt)opt.textContent=t('employeeLoading');}
+ if(bootstrap)populateSelects(bootstrap.otTypes,bootstrap.otUnits);
+ if(!state)$('empty').textContent=bootstrap?t('emptySelectEmployee'):t('emptyLoading');
+ if(state)render();
+}
+document.querySelectorAll('#langSwitch button').forEach(b=>{b.onclick=()=>applyLanguage(b.dataset.lang);});
+
+async function init(){setBusy(true);try{bootstrap=await rpc('getBootstrap');if(!bootstrap.employees.length)throw new Error(t('errNoEmployees'));$('employee').replaceChildren(new Option(t('selectEmployeeDefault'),''),...bootstrap.employees.map(e=>new Option(e.name+' ('+e.id+')',e.id)));populateSelects(bootstrap.otTypes,bootstrap.otUnits);await load();}catch(e){bootstrap=null;clearView();$('employee').replaceChildren(new Option(t('employeeLoadFailedOption'),''));notify(e.message+t('errPublishAgain'),true);$('empty').textContent=t('emptyEmployeeLoadFail');}finally{setBusy(false);}}
+applyLanguage(lang);
+init();
+</script></body></html>
